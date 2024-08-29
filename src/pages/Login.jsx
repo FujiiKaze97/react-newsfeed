@@ -18,7 +18,6 @@ const Login = () => {
     } else {
       navigate('/mainnewsfeed');
     }
-    console.log(data);
   };
 
   return (
