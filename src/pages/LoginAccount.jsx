@@ -40,15 +40,15 @@ const LoginAccount = () => {
             setPassword(e.target.value);
           }}
         />
-        <button onClick={handleSignUp}>회원가입</button>
-        <button
-          onClick={() => {
-            navigate('/');
-          }}
-        >
-          로그인
-        </button>
       </InputSection>
+      <button
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        로그인
+      </button>
+      <button onClick={handleSignUp}>회원가입</button>
     </div>
   );
 };
