@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../suparbase';
-import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleLogin = async () => {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -26,9 +27,21 @@ const Login = () => {
         <br></br>
         <br></br>
         <InputLable>이메일</InputLable>
-        <input type="email" />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
         <InputLable>비밀번호</InputLable>
-        <input type="text" />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
       </InputSection>
       <button
         onClick={() => {
