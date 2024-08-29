@@ -10,11 +10,11 @@ const LoginAccount = () => {
 
   const handleSignUp = async () => {
     const { data, error } = await supabase.auth.signUp({
-      email,
-      password
+      email: email,
+      password: password
     });
     if (error) {
-      alert('중복된 아이디입니다');
+      alert(error.message);
     } else {
       alert('축하합니다. 회원가입에 성공했습니다.');
       navigate('/');
