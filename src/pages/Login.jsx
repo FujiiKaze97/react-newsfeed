@@ -1,8 +1,28 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import supabase from '../../suparbase';
+import { useEffect } from 'react';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const selectr = async () => {
+    // const [users, setUser] = useState([]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const { data, e } = await supabase.from('tb_user').select('*');
+        if (e) {
+          console.log(e);
+        } else {
+          console.log(data);
+        }
+      };
+      fetchData();
+    }, []);
+  };
+
+  selectr();
 
   return (
     <div>
