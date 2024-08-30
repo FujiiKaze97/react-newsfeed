@@ -1,34 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../suparbase';
-import { useEffect } from 'react';
+import styled from 'styled-components';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
-  const selectr = async () => {
-    // const [users, setUser] = useState([]);
-
-    useEffect(() => {
-      const fetchData = async () => {
-        const { data, e } = await supabase.from('users').select('*');
-        if (e) {
-          console.log(e);
-        } else {
-          console.log(data);
-        }
-      };
-      fetchData();
-    }, []);
+  const handleLogin = async () => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+    if (error) {
+      alert('아이디와 비밀번호를 다시 확인해주세요');
+    } else {
+      navigate('/mainnewsfeed');
+    }
   };
 
-  selectr();
-
   return (
-    <div>
-      <h1>첫 페이지 login 화면입니다.</h1>
-      <br></br>
-      <br></br>
+    <>
+      <InputSection>
+        <h1>첫 페이지 login 화면입니다.</h1>
+        <br></br>
+        <br></br>
+        <InputLable>이메일</InputLable>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
+        <InputLable>비밀번호</InputLable>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+      </InputSection>
       <button
         onClick={() => {
           navigate('/loginaccount');
@@ -39,15 +53,20 @@ const Login = () => {
 
       <br></br>
       <br></br>
-      <button
-        onClick={() => {
-          navigate('/mainnewsfeed');
-        }}
-      >
-        메인화면 로직으로 이동
-      </button>
-    </div>
+      <button onClick={handleLogin}>login(메인화면 로직으로 이동)</button>
+    </>
   );
 };
 
 export default Login;
+
+const InputSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: 0 auto;
+`;
+
+const InputLable = styled.div``;
+
+const InputForm = styled.input``;
