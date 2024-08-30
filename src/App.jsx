@@ -1,5 +1,5 @@
+import SessionProvider from './SessionContext';
 import Router from './shared/Router';
-import SessionProvider from './SessionContext copy';
 
 const App = () => {
   return (
