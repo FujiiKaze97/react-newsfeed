@@ -3,7 +3,7 @@ import supabase from '../suparbase';
 
 const SessionContext = createContext(null);
 
-function SessionProvider() {
+function SessionProvider({ children }) {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
@@ -12,8 +12,10 @@ function SessionProvider() {
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
         setSession(null);
+        localStorage.removeItem('session');
       } else if (session) {
         setSession(session);
+        localStorage.setItem('session', JSON.stringify(session));
       }
     });
     return () => {
@@ -21,7 +23,7 @@ function SessionProvider() {
     };
   }, []);
 
-  return <SessionContext.Provider value={session}></SessionContext.Provider>;
+  return <SessionContext.Provider value={{ session, setSession }}>{children}</SessionContext.Provider>;
 }
 
 export default SessionProvider;
