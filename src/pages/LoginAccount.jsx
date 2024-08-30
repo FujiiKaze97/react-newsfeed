@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import supabase from '../../suparbase';
-import { useNavigate } from 'react-router-dom';
 
 const LoginAccount = () => {
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ const LoginAccount = () => {
       email: email,
       password: password
     });
+
     if (error) {
       alert(error.message);
     } else {
