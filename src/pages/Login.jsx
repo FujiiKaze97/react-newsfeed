@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import supabase from '../../suparbase';
 import styled from 'styled-components';
 import { SessionContext } from '../context/SessionContext';
-import { FaGithub, FaGoogle } from 'react-icons/fa';
+import { FaGithub, FaGoogle, FaSlack } from 'react-icons/fa';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -54,12 +54,30 @@ const Login = () => {
     }
   };
 
+  // Google로 로그인하는 함수
   const handleGoogleLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google'
+    });
 
     if (error) {
       // 오류가 발생하면 알림을 표시합니다.
       alert('GooGle 로그인에 실패했습니다. 다시 시도해주세요.');
+    } else {
+      // 성공하면 메인 뉴스 피드 페이지로 이동합니다.
+      navigate('/mainnewsfeed');
+    }
+  };
+
+  // Slack으로 로그인하는 함수
+  const handleZoomLogin = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'zoom'
+    });
+
+    if (error) {
+      // 오류가 발생하면 알림을 표시합니다.
+      alert('Zoom 로그인에 실패했습니다. 다시 시도해주세요.');
     } else {
       // 성공하면 메인 뉴스 피드 페이지로 이동합니다.
       navigate('/mainnewsfeed');
@@ -111,6 +129,10 @@ const Login = () => {
             <SocialButton onClick={handleGoogleLogin}>
               <FaGoogle size={24} />
             </SocialButton>
+            <SocialButton onClick={handleZoomLogin}>
+              {/* <FaZoom size={24} /> */}
+              {/* https://a.slack-edge.com/80588/marketing/img/meta/favicon-32.png */}
+            </SocialButton>
           </SocialLoginButtons>
 
           {/* 회원가입 페이지로 이동하는 버튼 */}
@@ -120,7 +142,6 @@ const Login = () => {
     </>
   );
 };
-
 export default Login;
 
 const Wrapper = styled.div`
@@ -219,8 +240,8 @@ const SocialLoginButtons = styled.div`
 `;
 
 const SocialButton = styled.button`
-  width: 40px;
-  height: 40px;
+  /* width: 40px;
+  height: 40px; */
   background-color: #eee;
   border-radius: 50%;
   border: none;
