@@ -4,7 +4,7 @@ import { useState } from 'react';
 import supabase from '../../../suparbase';
 // import {} from "./NewsfeedStyle";
 
-const GetNewsfeed = (defaultValue) => {
+const Newsfeed = (defaultValue) => {
   const [id, setId] = useState(defaultValue);
 
   // const [user, setUser] = useState([]);
@@ -42,4 +42,4 @@ const GetNewsfeed = (defaultValue) => {
   );
 };
 
-export default GetNewsfeed;
+export default Newsfeed;
