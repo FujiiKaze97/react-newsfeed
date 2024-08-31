@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../suparbase';
 import styled from 'styled-components';
-import { SessionContext } from '../SessionContext';
+import { SessionContext } from '../context/SessionContext';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 
 const Login = () => {

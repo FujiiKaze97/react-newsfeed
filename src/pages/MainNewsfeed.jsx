@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SessionContext } from '../SessionContext';
+import { SessionContext } from '../context/SessionContext';
 import LogoutButton from '../components/LogoutButton';
 
 const MainNewsfeed = () => {
