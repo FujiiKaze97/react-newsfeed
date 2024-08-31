@@ -145,7 +145,7 @@ const Login = () => {
               onClick={handleGoogleLogin}
             ></SocialButton>
             <SocialButton
-              backgroundUrl="https://play-lh.googleusercontent.com/mzJpTCsTW_FuR6YqOPaLHrSEVCSJuXzCljdxnCKhVZMcu6EESZBQTCHxMh8slVtnKqo"
+              backgroundUrl="https://cdn.icon-icons.com/icons2/2429/PNG/512/zoom_logo_icon_147196.png"
               onClick={handleZoomLogin}
             ></SocialButton>
           </SocialLoginButtons>
