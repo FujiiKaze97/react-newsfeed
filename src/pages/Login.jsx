@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import supabase from '../../suparbase';
 import styled from 'styled-components';
 import { SessionContext } from '../SessionContext';
+import { FaGithub } from 'react-icons/fa';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -57,8 +58,8 @@ const Login = () => {
     <>
       <Wrapper>
         <LeftSection>
-          <WelcomeImage src="path/to/your/image.png" alt="환영 이미지" />
-          <WelcomeText>환영합니다!</WelcomeText>
+          <WelcomeImage src="https://cdn.imweb.me/upload/S20220728586c4366ae600/1b44908f5637f.png" alt="환영 이미지" />
+          <WelcomeText>어서오시개!</WelcomeText>
         </LeftSection>
 
         <RightSection>
@@ -85,13 +86,15 @@ const Login = () => {
                 setPassword(e.target.value);
               }}
             />
-          </InputContainer>
 
-          <LoginButton onClick={handleLogin}>login(메인화면 로직으로 이동)</LoginButton>
+            <LoginButton onClick={handleLogin}>로그인</LoginButton>
+          </InputContainer>
 
           <SocialLoginLabel>소셜 계정으로 로그인</SocialLoginLabel>
           {/* GitHub로 로그인하는 버튼 */}
-          <SocialButton onClick={handleGithubLogin}> {/* GitHub 아이콘 */}github </SocialButton>
+          <SocialButton onClick={handleGithubLogin}>
+            <FaGithub size={24} />
+          </SocialButton>
           {/* 회원가입 페이지로 이동하는 버튼 */}
           <SignUpLink onClick={() => navigate('/loginaccount')}>아직 회원이 아니신가요? 회원가입</SignUpLink>
         </RightSection>
@@ -108,6 +111,7 @@ const Wrapper = styled.div`
   height: 100vh;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 `;
 
 const LeftSection = styled.div`
@@ -118,6 +122,8 @@ const LeftSection = styled.div`
   justify-content: center;
   background-color: #f5f5f5;
   padding: 2rem;
+  margin-left: 100px;
+  height: 70%;
 `;
 
 const RightSection = styled.div`
@@ -126,6 +132,9 @@ const RightSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 300px;
+  height: 70%;
+  margin-right: 100px;
 `;
 
 const WelcomeImage = styled.img`
@@ -157,16 +166,15 @@ const InputLable = styled.div`
 `;
 
 const InputForm = styled.input`
-  flex: 1;
   padding: 0.5rem;
   background-color: #ffc0cb; // 연한 분홍색 배경
   border: none;
   border-radius: 4px;
   color: #333;
+  width: 30%;
 `;
 
 const LoginButton = styled.button`
-  width: 100%;
   padding: 0.75rem;
   margin-top: 1rem;
   background-color: #4caf50;
@@ -174,6 +182,10 @@ const LoginButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  width: 20%;
+  text-align: center;
+  margin-left: 100px;
+  height: 40px;
 `;
 
 const SocialLoginLabel = styled.p`
