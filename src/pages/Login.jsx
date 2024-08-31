@@ -25,6 +25,7 @@ const Login = () => {
     checkSession(); // 세션 확인 호출
   }, [navigate, setSession]);
 
+  // 이메일로 로그인 하는 함수
   const handleLogin = async () => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
@@ -54,59 +55,146 @@ const Login = () => {
 
   return (
     <>
-      <InputSection>
-        <h1>첫 페이지 login 화면입니다.</h1>
-        <br></br>
-        <br></br>
-        <InputLable>이메일</InputLable>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <InputLable>비밀번호</InputLable>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-      </InputSection>
+      <Wrapper>
+        <LeftSection>
+          <WelcomeImage src="path/to/your/image.png" alt="환영 이미지" />
+          <WelcomeText>환영합니다!</WelcomeText>
+        </LeftSection>
 
-      {/* 회원가입 페이지로 이동하는 버튼 */}
-      <button
-        onClick={() => {
-          navigate('/loginaccount');
-        }}
-      >
-        회원가입 로직으로 이동
-      </button>
+        <RightSection>
+          <LoginTitle>login</LoginTitle>
 
-      <br></br>
-      <br></br>
-      <button onClick={handleLogin}>login(메인화면 로직으로 이동)</button>
+          <InputContainer>
+            <InputLable>이메일</InputLable>
 
-      <br></br>
-      <br></br>
+            <InputForm
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
+          </InputContainer>
 
-      {/* GitHub로 로그인하는 버튼 */}
-      <button onClick={handleGithubLogin}>GitHub로 로그인</button>
+          <InputContainer>
+            <InputLable>비밀번호</InputLable>
+            <InputForm
+              type="password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+          </InputContainer>
+
+          <LoginButton onClick={handleLogin}>login(메인화면 로직으로 이동)</LoginButton>
+
+          <SocialLoginLabel>소셜 계정으로 로그인</SocialLoginLabel>
+          {/* GitHub로 로그인하는 버튼 */}
+          <SocialButton onClick={handleGithubLogin}> {/* GitHub 아이콘 */}github </SocialButton>
+          {/* 회원가입 페이지로 이동하는 버튼 */}
+          <SignUpLink onClick={() => navigate('/loginaccount')}>아직 회원이 아니신가요? 회원가입</SignUpLink>
+        </RightSection>
+      </Wrapper>
     </>
   );
 };
 
 export default Login;
 
-const InputSection = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  margin: 0 auto;
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
 `;
 
-const InputLable = styled.div``;
+const LeftSection = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  padding: 2rem;
+`;
 
-const InputForm = styled.input``;
+const RightSection = styled.div`
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const WelcomeImage = styled.img`
+  width: 150px;
+  margin-bottom: 1rem;
+`;
+
+const WelcomeText = styled.h1`
+  font-size: 2rem;
+  color: #333;
+`;
+
+const LoginTitle = styled.h2`
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+
+const InputLable = styled.div`
+  flex: 0 0 100px; // 라벨의 너비를 고정
+  font-weight: bold;
+  color: #333;
+`;
+
+const InputForm = styled.input`
+  flex: 1;
+  padding: 0.5rem;
+  background-color: #ffc0cb; // 연한 분홍색 배경
+  border: none;
+  border-radius: 4px;
+  color: #333;
+`;
+
+const LoginButton = styled.button`
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+const SocialLoginLabel = styled.p`
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+`;
+
+const SocialButton = styled.button`
+  width: 40px;
+  height: 40px;
+  background-color: #eee;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  // 추가 스타일 필요 시 여기에 추가
+`;
+
+const SignUpLink = styled.p`
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #4caf50;
+  cursor: pointer;
+  text-align: center;
+`;
