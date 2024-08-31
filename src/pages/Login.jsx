@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../suparbase';
 import styled from 'styled-components';
-import { SessionContext } from '../SessionContext';
-import { FaGithub } from 'react-icons/fa';
+import { SessionContext } from '../context/SessionContext';
+import { FaGithub, FaGoogle } from 'react-icons/fa';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -54,6 +54,18 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+
+    if (error) {
+      // 오류가 발생하면 알림을 표시합니다.
+      alert('GooGle 로그인에 실패했습니다. 다시 시도해주세요.');
+    } else {
+      // 성공하면 메인 뉴스 피드 페이지로 이동합니다.
+      navigate('/mainnewsfeed');
+    }
+  };
+
   return (
     <>
       <Wrapper>
@@ -91,10 +103,16 @@ const Login = () => {
           </InputContainer>
 
           <SocialLoginLabel>소셜 계정으로 로그인</SocialLoginLabel>
-          {/* GitHub로 로그인하는 버튼 */}
-          <SocialButton onClick={handleGithubLogin}>
-            <FaGithub size={24} />
-          </SocialButton>
+          <SocialLoginButtons>
+            {/* GitHub로 로그인하는 버튼 */}
+            <SocialButton onClick={handleGithubLogin}>
+              <FaGithub size={24} />
+            </SocialButton>
+            <SocialButton onClick={handleGoogleLogin}>
+              <FaGoogle size={24} />
+            </SocialButton>
+          </SocialLoginButtons>
+
           {/* 회원가입 페이지로 이동하는 버튼 */}
           <SignUpLink onClick={() => navigate('/loginaccount')}>아직 회원이 아니신가요? 회원가입</SignUpLink>
         </RightSection>
@@ -191,6 +209,13 @@ const LoginButton = styled.button`
 const SocialLoginLabel = styled.p`
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+`;
+
+const SocialLoginButtons = styled.div`
+  display: flex;
+  /* justify-content: space-around; */
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 `;
 
 const SocialButton = styled.button`

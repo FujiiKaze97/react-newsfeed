@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import supabase from '../../suparbase';
-import { SessionContext } from '../SessionContext';
+import { SessionContext } from '../context/SessionContext';
 import { useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
