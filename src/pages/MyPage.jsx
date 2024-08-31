@@ -7,6 +7,7 @@ const MyPage = () => {
   // 이미지 업로드
   const [profileUrl, setProfileUrl] = useState('');
   const fileInputRef = useRef(null);
+  const [nickname, setNickname] = useState('');
 
   const checkProfile = () => {
     const { data } = supabase.storage.from('avatars').getPublicUrl('image.png');
@@ -28,13 +29,20 @@ const MyPage = () => {
     fileInputRef.current.click();
   };
 
+  //닉네임 수정
+  const getNickname = () => {
+    const { data, error } = supabase.from('countries').select();
+    setNickname(data);
+  };
+
+  //비밀번호 수정
+
+  //자기소개 수정
+
   useEffect(() => {
     checkProfile();
+    getNickname();
   }, []);
-
-  // 닉네임 수정
-
-  // 비밀번호 수정
 
   // 자기소개 수정
 
@@ -48,6 +56,8 @@ const MyPage = () => {
         style={{ display: 'none' }}
         onChange={(e) => handleFileInputChange(e.target.files)}
       />
+
+      <p>{nickname}</p>
     </Container>
   );
 };
