@@ -31,7 +31,7 @@ const MainNewsfeed = () => {
       <br></br>
       <button
         onClick={() => {
-          navigate('/mainnewsfeedwrite');
+          navigate('/mypage');
         }}
       >
         마이페이지로 이동
