@@ -1,10 +1,9 @@
 import React from 'react'
-// import {} from "./NewsfeedDetailStyle";
 
-const NewsfeddDetail = () => {
+const NewsfeedDetail = () => {
   return (
-    <div>NewsfeddDetail</div>
+    <div>NewsfeedDetail</div>
   )
 }
 
-export default NewsfeddDetail
+export default NewsfeedDetail
