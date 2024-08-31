@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import supabase from '../suparbase';
 
-const SessionContext = createContext(null);
+export const SessionContext = createContext(null);
 
 function SessionProvider({ children }) {
   const [session, setSession] = useState(null);
