@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import supabase from '../../suparbase';
 import styled from 'styled-components';
 import { SessionContext } from '../context/SessionContext';
-import { FaGithub, FaGoogle, FaSlack } from 'react-icons/fa';
+import { FaGithub, FaGoogle } from 'react-icons/fa';
 
 const Login = () => {
   const navigate = useNavigate();
