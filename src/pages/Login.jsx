@@ -12,6 +12,20 @@ const Login = () => {
   const { session, setSession } = useContext(SessionContext);
 
   useEffect(() => {
+    const handlePopState = () => {
+      if (window.location.pathname !== '/') {
+        navigate('/'); // 현재 경로가 '/'가 아닐 때만 이동
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState); // 이벤트 리스너 추가
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState); // 컴포넌트 언마운트 시 리스너 제거
+    };
+  }, [navigate]);
+
+  useEffect(() => {
     // 컴포넌트가 마운트될 때 세션을 확인하여 로그인 상태를 업데이트
     const checkSession = async () => {
       const {
