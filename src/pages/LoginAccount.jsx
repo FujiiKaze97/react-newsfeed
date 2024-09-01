@@ -9,16 +9,20 @@ const LoginAccount = () => {
   const [email, setEmail] = useState('');
 
   const handleSignUp = async () => {
-    const { data, error } = await supabase.auth.signUp({
-      email: email,
-      password: password
-    });
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password
+      });
 
-    if (error) {
-      alert(error.message);
-    } else {
-      alert('축하합니다. 회원가입에 성공했습니다.');
-      navigate('/');
+      if (error) {
+        alert(error.message);
+      } else {
+        alert('축하합니다. 회원가입에 성공했습니다.');
+        navigate('/');
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
   return (

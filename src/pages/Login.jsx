@@ -3,13 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import supabase from '../../suparbase';
 import styled from 'styled-components';
 import { SessionContext } from '../context/SessionContext';
-import { FaGithub, FaGoogle } from 'react-icons/fa';
 
 const Login = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const { session, setSession } = useContext(SessionContext);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (window.location.pathname !== '/') {
+        navigate('/'); // 현재 경로가 '/'가 아닐 때만 이동
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState); // 이벤트 리스너 추가
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState); // 컴포넌트 언마운트 시 리스너 제거
+    };
+  }, [navigate]);
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 세션을 확인하여 로그인 상태를 업데이트
@@ -123,16 +136,18 @@ const Login = () => {
           <SocialLoginLabel>소셜 계정으로 로그인</SocialLoginLabel>
           <SocialLoginButtons>
             {/* GitHub로 로그인하는 버튼 */}
-            <SocialButton onClick={handleGithubLogin}>
-              <FaGithub size={24} />
-            </SocialButton>
-            <SocialButton onClick={handleGoogleLogin}>
-              <FaGoogle size={24} />
-            </SocialButton>
-            <SocialButton onClick={handleZoomLogin}>
-              {/* <FaZoom size={24} /> */}
-              {/* https://a.slack-edge.com/80588/marketing/img/meta/favicon-32.png */}
-            </SocialButton>
+            <SocialButton
+              $backgroundurl="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_640.png"
+              onClick={handleGithubLogin}
+            ></SocialButton>
+            <SocialButton
+              $backgroundurl="https://w7.pngwing.com/pngs/506/509/png-transparent-google-company-text-logo.png"
+              onClick={handleGoogleLogin}
+            ></SocialButton>
+            <SocialButton
+              $backgroundurl="https://play-lh.googleusercontent.com/mzJpTCsTW_FuR6YqOPaLHrSEVCSJuXzCljdxnCKhVZMcu6EESZBQTCHxMh8slVtnKqo"
+              onClick={handleZoomLogin}
+            ></SocialButton>
           </SocialLoginButtons>
 
           {/* 회원가입 페이지로 이동하는 버튼 */}
@@ -240,13 +255,15 @@ const SocialLoginButtons = styled.div`
 `;
 
 const SocialButton = styled.button`
-  /* width: 40px;
-  height: 40px; */
-  background-color: #eee;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
   // 추가 스타일 필요 시 여기에 추가
+  background-image: url(${(props) => props.$backgroundurl});
+  background-size: cover;
+  background-position: center;
 `;
 
 const SignUpLink = styled.p`
