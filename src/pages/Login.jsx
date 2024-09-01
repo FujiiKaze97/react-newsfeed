@@ -82,7 +82,7 @@ const Login = () => {
     }
   };
 
-  // Slack으로 로그인하는 함수
+  // Zoom으로 로그인하는 함수
   const handleZoomLogin = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'zoom'
