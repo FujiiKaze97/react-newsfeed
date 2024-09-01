@@ -1,8 +1,24 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../suparbase';
-import styled from 'styled-components';
 import { SessionContext } from '../context/SessionContext';
+import { UserContext } from '../context/UserContext';
+import MainNewsfeed from './MainNewsfeed';
+import {
+  Wrapper,
+  LeftSection,
+  WelcomeImage,
+  WelcomeText,
+  RightSection,
+  LoginTitle,
+  InputContainer,
+  InputLable,
+  InputForm,
+  LoginButton,
+  SocialLoginButtons,
+  SocialButton,
+  SignUpLink
+} from './LoginStyle';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -40,60 +56,26 @@ const Login = () => {
   }, [navigate, setSession]);
 
   // 이메일로 로그인 하는 함수
-  const handleLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
-    if (error) {
-      alert('아이디와 비밀번호를 다시 확인해주세요');
+  const handleLogin = async (value) => {
+    console.log(value);
+    if (value === 'email') {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      <UserContext.Provider value={data.user.id}>
+        <MainNewsfeed />
+      </UserContext.Provider>;
     } else {
-      navigate('/mainnewsfeed');
-    }
-  };
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: value //  OAuth 프로바이더 사용
+      });
 
-  // GitHub로 로그인하는 함수
-  const handleGithubLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'github' // GitHub OAuth 프로바이더 사용
-    });
-
-    if (error) {
-      // 오류가 발생하면 알림을 표시합니다.
-      alert('GitHub 로그인에 실패했습니다. 다시 시도해주세요.');
-    } else {
-      // 성공하면 메인 뉴스 피드 페이지로 이동합니다.
-      navigate('/mainnewsfeed');
-    }
-  };
-
-  // Google로 로그인하는 함수
-  const handleGoogleLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google'
-    });
-
-    if (error) {
-      // 오류가 발생하면 알림을 표시합니다.
-      alert('GooGle 로그인에 실패했습니다. 다시 시도해주세요.');
-    } else {
-      // 성공하면 메인 뉴스 피드 페이지로 이동합니다.
-      navigate('/mainnewsfeed');
-    }
-  };
-
-  // Zoom으로 로그인하는 함수
-  const handleZoomLogin = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'zoom'
-    });
-
-    if (error) {
-      // 오류가 발생하면 알림을 표시합니다.
-      alert('Zoom 로그인에 실패했습니다. 다시 시도해주세요.');
-    } else {
-      // 성공하면 메인 뉴스 피드 페이지로 이동합니다.
-      navigate('/mainnewsfeed');
+      if (error) {
+        // 오류가 발생하면 알림을 표시합니다.
+        alert(value + '로그인에 실패했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
@@ -130,23 +112,28 @@ const Login = () => {
               }}
             />
 
-            <LoginButton onClick={handleLogin}>로그인</LoginButton>
+            <LoginButton onClick={() => handleLogin('email')}>로그인</LoginButton>
           </InputContainer>
 
-          <SocialLoginLabel>소셜 계정으로 로그인</SocialLoginLabel>
           <SocialLoginButtons>
             {/* GitHub로 로그인하는 버튼 */}
             <SocialButton
-              backgroundUrl="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_640.png"
-              onClick={handleGithubLogin}
+              $backgroundurl="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_640.png"
+              onClick={() => {
+                handleLogin('github');
+              }}
             ></SocialButton>
             <SocialButton
-              backgroundUrl="https://w7.pngwing.com/pngs/506/509/png-transparent-google-company-text-logo.png"
-              onClick={handleGoogleLogin}
+              $backgroundurl="https://w7.pngwing.com/pngs/506/509/png-transparent-google-company-text-logo.png"
+              onClick={() => {
+                handleLogin('google');
+              }}
             ></SocialButton>
             <SocialButton
-              backgroundUrl="https://cdn.icon-icons.com/icons2/2429/PNG/512/zoom_logo_icon_147196.png"
-              onClick={handleZoomLogin}
+              $backgroundurl="https://yt3.googleusercontent.com/p5o0NE0QoIMjlIiX6S1E5xIULBtlS5bKhoFAv4LdOvp6i2yVvMOFFgV2hNW4YGKRRm-73Qz_=s900-c-k-c0x00ffffff-no-rj"
+              onClick={() => {
+                handleLogin('zoom');
+              }}
             ></SocialButton>
           </SocialLoginButtons>
 
@@ -158,118 +145,3 @@ const Login = () => {
   );
 };
 export default Login;
-
-const Wrapper = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-`;
-
-const LeftSection = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #f5f5f5;
-  padding: 2rem;
-  margin-left: 100px;
-  height: 70%;
-`;
-
-const RightSection = styled.div`
-  flex: 1;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 300px;
-  height: 70%;
-  margin-right: 100px;
-`;
-
-const WelcomeImage = styled.img`
-  width: 150px;
-  margin-bottom: 1rem;
-`;
-
-const WelcomeText = styled.h1`
-  font-size: 2rem;
-  color: #333;
-`;
-
-const LoginTitle = styled.h2`
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 1rem;
-`;
-
-const InputLable = styled.div`
-  flex: 0 0 100px; // 라벨의 너비를 고정
-  font-weight: bold;
-  color: #333;
-`;
-
-const InputForm = styled.input`
-  padding: 0.5rem;
-  background-color: #ffc0cb; // 연한 분홍색 배경
-  border: none;
-  border-radius: 4px;
-  color: #333;
-  width: 30%;
-`;
-
-const LoginButton = styled.button`
-  padding: 0.75rem;
-  margin-top: 1rem;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 20%;
-  text-align: center;
-  margin-left: 100px;
-  height: 40px;
-`;
-
-const SocialLoginLabel = styled.p`
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-`;
-
-const SocialLoginButtons = styled.div`
-  display: flex;
-  /* justify-content: space-around; */
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-`;
-
-const SocialButton = styled.button`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  // 추가 스타일 필요 시 여기에 추가
-  background-image: url(${(props) => props.backgroundUrl});
-  background-size: cover;
-  background-position: center;
-`;
-
-const SignUpLink = styled.p`
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #4caf50;
-  cursor: pointer;
-  text-align: center;
-`;
