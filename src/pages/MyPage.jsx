@@ -35,6 +35,10 @@ const MyPage = () => {
     }
   };
 
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
+
   const handleFileInputChange = async (files) => {
     const [file] = files;
     if (!file) return;
@@ -62,10 +66,6 @@ const MyPage = () => {
     } else {
       console.log('Profile URL updated successfully');
     }
-  };
-
-  const handleClick = () => {
-    fileInputRef.current.click();
   };
 
   const updateNickname = async () => {
