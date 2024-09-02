@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import GetNewsfeed from '../components/GetNewsfeed';
 
 const MainNewsfeed = () => {
   const navigate = useNavigate();
+  GetNewsfeed('s77772005');
 
   return (
     <div>

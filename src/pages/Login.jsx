@@ -11,7 +11,7 @@ const Login = () => {
 
     useEffect(() => {
       const fetchData = async () => {
-        const { data, e } = await supabase.from('tb_user').select('*');
+        const { data, e } = await supabase.from('users').select('*');
         if (e) {
           console.log(e);
         } else {
