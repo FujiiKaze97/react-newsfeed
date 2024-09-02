@@ -57,31 +57,35 @@ const Login = () => {
 
   // 이메일로 로그인 하는 함수
   const handleLogin = async (value) => {
-    console.log(value);
-    if (value === 'email') {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
+    try {
+      if (value === 'email') {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
 
-      if (error) {
-        // 오류가 발생하면 알림을 표시합니다.
-        alert('로그인에 실패했습니다. 다시 시도해주세요.');
+        if (error) {
+          // 오류가 발생하면 알림을 표시합니다.
+          alert('로그인에 실패했습니다. 다시 시도해주세요.');
+        }
+        else if (data) {
+          // setSession(data.session);
+          navigate('/mainnewsfeed');
+        }
       } else {
-        // 로그인 성공 시 메인 뉴스피드로 이동합니다.
-        navigate('/mainnewsfeed');
-      }
-    } else {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: value //  OAuth 프로바이더 사용
-      });
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: value //  OAuth 프로바이더 사용
+        });
 
-      if (error) {
-        // 오류가 발생하면 알림을 표시합니다.
-        alert(value + '로그인에 실패했습니다. 다시 시도해주세요.');
-      } else {
-        navigate('/mainnewfeed');
+        if (error) {
+          // 오류가 발생하면 알림을 표시합니다.
+          alert(value + '로그인에 실패했습니다. 다시 시도해주세요.');
+        } else {
+          navigate('/mainnewfeed');
+        }
       }
+    } catch (e) {
+      console.log(e);
     }
   };
 
