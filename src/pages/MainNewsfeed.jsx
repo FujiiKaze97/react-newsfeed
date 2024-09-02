@@ -11,7 +11,6 @@ const MainNewsfeed = () => {
   const { session } = useContext(SessionContext);
 
   const userData = useContext(UserContext);
-  console.log(userData);
 
   useEffect(() => {
     // 만약 로그인이 안 되어있다면 로그인 페이지로 리디렉션

@@ -57,7 +57,6 @@ const Login = () => {
 
   // 이메일로 로그인 하는 함수
   const handleLogin = async (value) => {
-    console.log(value);
     if (value === 'email') {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
@@ -71,6 +70,10 @@ const Login = () => {
         // 로그인 성공 시 메인 뉴스피드로 이동합니다.
         navigate('/mainnewsfeed');
       }
+
+      // <UserContext.Provider value={data.user.id}>
+      //   <MainNewsfeed />
+      // </UserContext.Provider>;
     } else {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: value //  OAuth 프로바이더 사용
@@ -79,6 +82,10 @@ const Login = () => {
       if (error) {
         // 오류가 발생하면 알림을 표시합니다.
         alert(value + '로그인에 실패했습니다. 다시 시도해주세요.');
+      } else {
+        // setSession(data.session);
+        // 로그인 성공 시 메인 뉴스피드로 이동합니다.
+        navigate('/mainnewsfeed');
       }
     }
   };
