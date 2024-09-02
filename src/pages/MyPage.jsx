@@ -44,7 +44,10 @@ const MyPage = () => {
       data: { user }
     } = await supabase.auth.getUser();
     console.log(user);
-    let { data: profile, error: usersError } = await supabase.from('users').select('profile_url').eq('id', user.id);
+    let { data: profile, error: usersError } = await supabase
+      .from('users')
+      .select('profile_url, nick_nm')
+      .eq('id', user.id);
     console.log(profileUrl);
     const { data, error } = supabase.storage.from('avatars').getPublicUrl(profile[0].profile_url ?? 'image.png');
     const imageUrl = `${SUPABASE_PROJECT_URL}/storage/v1/object/public/avatars/${profile[0].profile_url}`;
@@ -56,6 +59,10 @@ const MyPage = () => {
 
     if (data) {
       setProfileUrl(imageUrl);
+    }
+
+    if (profile && profile[0].nick_nm) {
+      setNickname(profile[0].nick_nm); // 닉네임을 상태에 저장합니다.
     }
   };
 
@@ -109,10 +116,7 @@ const MyPage = () => {
 
     const userId = sessionData.session.user.id; // 사용자 ID 가져오기
 
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({ nick_nm: newNickname })
-      .eq('auth_users_id', userId);
+    const { error: updateError } = await supabase.from('users').update({ nick_nm: newNickname }).eq('id', userId);
 
     if (updateError) {
       console.error('Error updating nickname:', updateError.message);
