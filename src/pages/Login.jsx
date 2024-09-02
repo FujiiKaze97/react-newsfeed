@@ -79,8 +79,6 @@ const Login = () => {
       if (error) {
         // 오류가 발생하면 알림을 표시합니다.
         alert(value + '로그인에 실패했습니다. 다시 시도해주세요.');
-      } else {
-        navigate('/mainnewfeed');
       }
     }
   };
