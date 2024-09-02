@@ -18,6 +18,8 @@ function SessionProvider({ children }) {
         localStorage.setItem('session', JSON.stringify(session));
       }
     });
+
+    // 4. 컴포넌트가 언마운트될 때 구독을 취소하세요.
     return () => {
       subscription.unsubscribe();
     };
