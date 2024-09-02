@@ -14,7 +14,6 @@ const Newsfeed = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (user) {
-        console.log(user + '여기니?');
         const { data, e } = await supabase.from('postings').select('*');
         if (e) {
           console.log(e);
@@ -27,7 +26,13 @@ const Newsfeed = () => {
     fetchData();
   }, []);
 
-  // console.log(posingData);
+  const postingClick = async (posting_id) => {
+    try {
+      navigate('/mainnewsfeeddetail/' + posting_id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div>
@@ -45,11 +50,14 @@ const Newsfeed = () => {
       >
         마이 프로필
       </button>
-      <h1>유저 페이지입니다</h1>
       {posts.map((post) => {
         return (
-          <div key={post.posting_id} style={{ border: '1px solid black', marginBottom: '10px' }}>
-            <h5>작성자 : {post.id}</h5>
+          <div
+            key={post.posting_id}
+            style={{ border: '1px solid black', marginBottom: '10px' }}
+            onClick={() => postingClick(post.posting_id)}
+          >
+            <h5>작성자 : {post.user_id.split('@')[0]}</h5>
             <h5>{post.posting_content}</h5>
             <h5>작성일 : {post.writed_at}</h5>
             <h1>제목 : {post.posting_title}</h1>
