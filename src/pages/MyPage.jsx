@@ -1,43 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import supabase, { SUPABASE_PROJECT_URL } from '../../suparbase';
-import { useNavigate } from 'react-router-dom';
-import { SessionContext } from '../context/SessionContext';
 
 const MyPage = () => {
   const [profileUrl, setProfileUrl] = useState('');
   const fileInputRef = useRef(null);
   const [nickname, setNickname] = useState('');
   const [newNickname, setNewNickname] = useState('');
-
-  // public.users에서 사용자 데이터를 가져오는 함수
-  const fetchUserData = async () => {
-    // 세션에서 사용자 정보 가져오기
-    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-
-    if (sessionError) {
-      throw new Error('Error fetching session: ' + sessionError.message);
-    }
-
-    const userId = sessionData.session.user.id; // 사용자 ID 가져오기
-
-    // public.users 테이블에서 사용자 정보 가져오기
-    const { data: userData, error: userError } = await supabase
-      .from('users') // public.users 테이블 선택
-      .select('*') // 모든 컬럼 선택
-      .eq('auth_users_id', userId) // 조건: 사용자 ID가 세션에서 가져온 ID와 일치
-      .maybeSingle(); // 단일 레코드를 기대할 때 사용
-
-    if (userError) {
-      throw new Error('Error fetching user data: ' + userError.message);
-    }
-
-    if (userData && userData.profile_url) {
-      setProfileUrl(userData.profile_url);
-    }
-
-    return userData; // 사용자 데이터를 반환
-  };
 
   const checkProfile = async () => {
     const {
@@ -48,7 +17,7 @@ const MyPage = () => {
       .from('users')
       .select('profile_url, nick_nm')
       .eq('id', user.id);
-    console.log(profileUrl);
+
     const { data, error } = supabase.storage.from('avatars').getPublicUrl(profile[0].profile_url ?? 'image.png');
     const imageUrl = `${SUPABASE_PROJECT_URL}/storage/v1/object/public/avatars/${profile[0].profile_url}`;
 
@@ -57,7 +26,7 @@ const MyPage = () => {
       return;
     }
 
-    if (data) {
+    if (data && data.publicUrl) {
       setProfileUrl(imageUrl);
     }
 
@@ -99,13 +68,6 @@ const MyPage = () => {
     fileInputRef.current.click();
   };
 
-  const fetchNickname = async () => {
-    console.log('fetchNickname');
-
-    const userData = await fetchUserData(); // 분리된 함수 호출
-    setNickname(userData.nick_nm);
-  };
-
   const updateNickname = async () => {
     // 세션에서 사용자 정보 가져오기
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
@@ -129,7 +91,6 @@ const MyPage = () => {
 
   useEffect(() => {
     checkProfile();
-    fetchNickname();
   }, []);
   console.log(profileUrl);
   return (

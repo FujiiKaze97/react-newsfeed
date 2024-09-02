@@ -7,6 +7,14 @@ function SessionProvider({ children }) {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
+    const savedSession = localStorage.getItem('session');
+
+    // 2. 불러온 세션 정보가 있으면, JSON.parse를 사용해 문자열을 객체로 변환하세요.
+    if (savedSession) {
+      // 변환된 객체를 session 상태에 반영하세요.
+      setSession(JSON.parse(savedSession));
+    }
+
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((event, session) => {
