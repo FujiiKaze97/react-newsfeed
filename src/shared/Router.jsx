@@ -33,7 +33,7 @@ const Router = () => {
             <Route path="login" element={<Login />} />
             <Route path="loginaccount" element={<LoginAccount />} />
             <Route path="mainnewsfeed" element={<MainNewsfeed />} />
-            <Route path="mainnewsfeeddetail" element={<MainNewsfeedDetail />} />
+            <Route path="mainnewsfeeddetail/:id" element={<MainNewsfeedDetail />} />
             <Route path="mainnewsfeedwrite" element={<MainNewsfeedWrite />} />
             <Route path="mypage" element={<MyPage />} />
           </Routes>
