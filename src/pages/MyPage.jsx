@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import supabase from '../../suparbase';
+import supabase, { SUPABASE_PROJECT_URL } from '../../suparbase';
 import { useNavigate } from 'react-router-dom';
+import { SessionContext } from '../context/SessionContext';
 
 const MyPage = () => {
   const [profileUrl, setProfileUrl] = useState('');
@@ -25,18 +26,44 @@ const MyPage = () => {
       .from('users') // public.users 테이블 선택
       .select('*') // 모든 컬럼 선택
       .eq('auth_users_id', userId) // 조건: 사용자 ID가 세션에서 가져온 ID와 일치
-      .single(); // 단일 레코드를 기대할 때 사용
+      .maybeSingle(); // 단일 레코드를 기대할 때 사용
 
     if (userError) {
       throw new Error('Error fetching user data: ' + userError.message);
     }
 
+    if (userData && userData.profile_url) {
+      setProfileUrl(userData.profile_url);
+    }
+
     return userData; // 사용자 데이터를 반환
   };
 
-  const checkProfile = () => {
-    const { data } = supabase.storage.from('avatars').getPublicUrl('image.png');
-    setProfileUrl(data.publicUrl);
+  const checkProfile = async () => {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    console.log(user);
+    let { data: profile, error: usersError } = await supabase
+      .from('users')
+      .select('profile_url, nick_nm')
+      .eq('id', user.id);
+    console.log(profileUrl);
+    const { data, error } = supabase.storage.from('avatars').getPublicUrl(profile[0].profile_url ?? 'image.png');
+    const imageUrl = `${SUPABASE_PROJECT_URL}/storage/v1/object/public/avatars/${profile[0].profile_url}`;
+
+    if (error) {
+      console.error('Error fetching public URL:', error.message);
+      return;
+    }
+
+    if (data) {
+      setProfileUrl(imageUrl);
+    }
+
+    if (profile && profile[0].nick_nm) {
+      setNickname(profile[0].nick_nm); // 닉네임을 상태에 저장합니다.
+    }
   };
 
   const handleFileInputChange = async (files) => {
@@ -44,7 +71,28 @@ const MyPage = () => {
     if (!file) return;
 
     const { data } = await supabase.storage.from('avatars').upload(`avatar_${Date.now()}.png`, file);
-    setProfileUrl(`https://sdkvrrggsuuhvxrvsobx.supabase.co/storage/v1/object/public/avatars/${data.path}`);
+
+    const imageUrl = `${SUPABASE_PROJECT_URL}/storage/v1/object/public/avatars/${data.path}`;
+    setProfileUrl(imageUrl);
+
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+    if (sessionError) {
+      throw new Error('Error fetching session: ' + sessionError.message);
+    }
+
+    const userId = sessionData.session.user.id;
+
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({ profile_url: data.path }) // 프로필 이미지 URL을 profile_url 컬럼에 저장
+      .eq('id', userId); // 현재 로그인한 사용자의 ID로 레코드 업데이트
+
+    if (updateError) {
+      console.error('Error updating profile URL:', updateError.message);
+    } else {
+      console.log('Profile URL updated successfully');
+    }
   };
 
   const handleClick = () => {
@@ -68,10 +116,7 @@ const MyPage = () => {
 
     const userId = sessionData.session.user.id; // 사용자 ID 가져오기
 
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({ nick_nm: newNickname })
-      .eq('auth_users_id', userId);
+    const { error: updateError } = await supabase.from('users').update({ nick_nm: newNickname }).eq('id', userId);
 
     if (updateError) {
       console.error('Error updating nickname:', updateError.message);
@@ -86,7 +131,7 @@ const MyPage = () => {
     checkProfile();
     fetchNickname();
   }, []);
-
+  console.log(profileUrl);
   return (
     <Container>
       <ProfileImage src={profileUrl} alt="Profile" />
