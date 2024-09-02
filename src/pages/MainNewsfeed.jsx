@@ -9,9 +9,8 @@ import NewsfeedDetail from '../components/NewsfeedDetail/NewsfeedDetail';
 const MainNewsfeed = () => {
   const navigate = useNavigate();
   const { session } = useContext(SessionContext);
-
-  const userData = useContext(UserContext);
-  console.log(userData);
+  const user = useContext(UserContext);
+  console.log(user);
 
   useEffect(() => {
     // 만약 로그인이 안 되어있다면 로그인 페이지로 리디렉션
