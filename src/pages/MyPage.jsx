@@ -243,7 +243,7 @@ export const LeftSection = styled.div`
   padding: 2rem;
   margin-right: 2rem;
   border-radius: 10px;
-  height: 90%;
+  height: 100%;
   margin-top: 50px;
   text-align: center;
 `;

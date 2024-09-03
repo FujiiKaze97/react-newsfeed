@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,7 +27,7 @@ export const TextContainter = styled.div`
   gap: 10px;
   margin-bottom: 20px;
   width: 50%;
-  color : #a0a0a0;
+  color: #a0a0a0;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -54,7 +54,7 @@ export const CardContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 100px;
 `;
 
 export const Card = styled.div`
@@ -67,8 +67,6 @@ export const Card = styled.div`
   transition: transform 0.2s;
   display: flex;
   flex-direction: column;
-
-
 `;
 
 export const CardImage = styled.img`
@@ -150,7 +148,6 @@ export const CommentItem = styled.div`
     margin: 5px 0;
   }
 `;
-
 
 export const CommentHeader = styled.h3`
   font-size: 1.5rem;
