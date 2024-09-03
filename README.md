@@ -1,7 +1,8 @@
-# 프로젝트 이름
+![image](https://github.com/user-attachments/assets/b9044cbe-89f2-42a4-8bb8-f6f617d90f63)# 프로젝트 이름
 
 ## 📖 목차
 1. [프로젝트 소개](#프로젝트-소개)
+애완동물을 위한 
 2. [팀소개](#팀소개)
 3. [프로젝트 계기](#프로젝트-계기)
 4. [주요기능](#주요기능)
@@ -69,7 +70,8 @@ supabase
 
 
 ## ERD
-![image](https://nbcamp2024.slack.com/files/U07AVM2UU2U/F07KM4BUYH3/image.png)
+![image](https://github.com/user-attachments/assets/34b78ebf-ecda-41a6-85e7-e0e2a3e11c27)
+
 
 ## 프로젝트 파일 구조
 
