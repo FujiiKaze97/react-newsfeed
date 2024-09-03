@@ -128,7 +128,6 @@ export default function MainNewsfeedWrite() {
 
   const handleAddPost = async () => {
     try {
-      console.log(session);
       const { error } = await supabase
         .from('postings')
         .insert({ ...form, image, id: session?.user.id })
@@ -137,8 +136,7 @@ export default function MainNewsfeedWrite() {
       if (error) throw error;
 
       alert('Success!');
-
-      navigate(-1);
+      navigate('/mainnewsfeed');
     } catch (err) {
       console.error(err);
       alert('Failed!');
