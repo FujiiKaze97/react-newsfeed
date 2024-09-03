@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import supabase, { SUPABASE_PROJECT_URL } from '../../suparbase';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
   const [profileUrl, setProfileUrl] = useState('');
   const fileInputRef = useRef(null);
   const [nickname, setNickname] = useState('');
   const [newNickname, setNewNickname] = useState('');
+  const navigate = useNavigate();
 
   const checkProfile = async () => {
     const {
@@ -116,6 +118,7 @@ const MyPage = () => {
           닉네임 수정
         </button>
       </div>
+      <button onClick={() => navigate('/mainnewsfeedwrite', { replace: true })}>글쓰기</button>
     </Container>
   );
 };
