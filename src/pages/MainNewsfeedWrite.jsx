@@ -3,18 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import supabase from '../../supabase';
 import { SessionContext } from '../context/SessionContext';
+import { Button, ButtonContainer, CenterButton, Container } from '../components/Newsfeed/NewsfeedStyle';
+import LogoutButton from '../components/LogoutButton';
 
-const Container = styled.div`
-  max-width: 800px;
+const WriteContainer = styled.div`
+  max-width: 700px;
   margin: 0 auto;
   padding: 24px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  margin-top: 50px;
 `;
 
-const Button = styled.button`
+const WriteButton = styled.button`
   width: 100%;
   padding: 12px;
   color: #fff;
@@ -163,33 +166,45 @@ export default function MainNewsfeedWrite() {
   };
 
   return (
-    <Container>
-      <input type="file" style={{ display: 'none' }} onChange={handleFileInputChange} ref={fileInputRef} />
-      <ImageContainer>
-        {image ? (
-          <Image src={image} alt="Uploaded" />
-        ) : (
-          <Placeholder>{loading ? 'Uploading...' : 'No Image'}</Placeholder>
-        )}
-      </ImageContainer>
-      <Button $variant="upload" onClick={() => fileInputRef.current.click()}>
-        파일 업로드
-      </Button>
-      <InputWrapper>
-        <InputLabel htmlFor="title">제목:</InputLabel>
-        <Input id="title" name="title" value={form.title} onChange={handleChange} />
-      </InputWrapper>
-      <InputWrapper>
-        <InputLabel htmlFor="content">내용:</InputLabel>
-        <TextArea id="content" name="content" value={form.content} onChange={handleChange} rows="4" />
-      </InputWrapper>
-      <InputWrapper>
-        <InputLabel htmlFor="date">날짜:</InputLabel>
-        <Input id="date" name="date" type="date" value={form.date} onChange={handleChange} />
-      </InputWrapper>
-      <Button $variant="submit" onClick={handleAddPost}>
-        업로드
-      </Button>
-    </Container>
+    <>
+      <Container>
+        <ButtonContainer>
+          <div></div> {/* 왼쪽에 빈 공간 */}
+          <CenterButton onClick={() => navigate('/')}></CenterButton>
+          <div>
+            <Button onClick={() => navigate('/mypage')}>마이 페이지</Button>
+            <LogoutButton />
+          </div>
+        </ButtonContainer>
+      </Container>
+      <WriteContainer>
+        <input type="file" style={{ display: 'none' }} onChange={handleFileInputChange} ref={fileInputRef} />
+        <ImageContainer>
+          {image ? (
+            <Image src={image} alt="Uploaded" />
+          ) : (
+            <Placeholder>{loading ? 'Uploading...' : 'No Image'}</Placeholder>
+          )}
+        </ImageContainer>
+        <WriteButton $variant="upload" onClick={() => fileInputRef.current.click()}>
+          파일 업로드
+        </WriteButton>
+        <InputWrapper>
+          <InputLabel htmlFor="title">제목:</InputLabel>
+          <Input id="title" name="title" value={form.title} onChange={handleChange} />
+        </InputWrapper>
+        <InputWrapper>
+          <InputLabel htmlFor="content">내용:</InputLabel>
+          <TextArea id="content" name="content" value={form.content} onChange={handleChange} rows="4" />
+        </InputWrapper>
+        <InputWrapper>
+          <InputLabel htmlFor="date">날짜:</InputLabel>
+          <Input id="date" name="date" type="date" value={form.date} onChange={handleChange} />
+        </InputWrapper>
+        <WriteButton $variant="submit" onClick={handleAddPost}>
+          업로드
+        </WriteButton>
+      </WriteContainer>
+    </>
   );
 }

@@ -55,6 +55,7 @@ export const CenterButton = styled.button`
   background-size: cover;
   width: 100px;
   height: 100px;
+  cursor: pointer;
 `;
 
 
