@@ -172,8 +172,7 @@ export default function MainNewsfeedUpdate() {
 
   const fetchPost = async () => {
     try {
-      const {
-        data: [postings],
+      const { data: [postings],
         error
       } = await supabase.from('postings').select().eq('posting_id', posting_id);
 

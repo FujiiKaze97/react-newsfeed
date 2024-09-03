@@ -42,6 +42,22 @@ const Newsfeed = () => {
     }
   };
 
+  const handleDeletePost = async (posting_id) => {
+    try {
+      const { error } = await supabase.from('postings').delete().eq('posting_id', posting_id);
+
+      if (error) {
+        console.error('포스팅 삭제 중 에러 발생:', error);
+        return;
+      } 
+          setPosts((posts)=> posts.filter((post) => post.posting_id !== posting_id));
+      }
+     catch(e) {
+      console.log(e);
+    }
+    
+  };
+
   return (
     <Container>
       <ButtonContainer>
@@ -52,10 +68,9 @@ const Newsfeed = () => {
       </ButtonContainer>
       <CardContainer>
         {posts.map((post) => {
-          const writeUser = post.user_id ? post.user_id.split('@')[0] : '익명의 사용자';
-
           return (
-            <Card key={post.posting_id} onClick={() => postingClick(post.posting_id)}>
+            <Card key={post.posting_id}>
+              <div onClick={() => postingClick(post.posting_id)}>
               <CardImage
                 src={post.image}
                 alt={post.title}
@@ -69,7 +84,13 @@ const Newsfeed = () => {
                 <Info>{post.content}</Info>
                 <Info>작성일 : {post.date}</Info>
                 <Info>작성자 : {post.users ? post.users.nick_nm : '익명의 사용자'}</Info>
+           
               </CardContent>
+              </div>
+    
+              {post.id === session.user.id && (
+                    <button onClick={() => handleDeletePost(post.posting_id)}>삭제</button>
+                )}
             </Card>
           );
         })}
