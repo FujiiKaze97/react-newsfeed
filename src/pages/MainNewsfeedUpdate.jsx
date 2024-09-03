@@ -137,13 +137,13 @@ export default function MainNewsfeedUpdate() {
     try {
       const { error } = await supabase
         .from('postings')
-        .update({ ...form, image, user_email: session?.user.email })
+        .update({ ...form, image, id: session?.user.id })
         .eq('posting_id', posting_id);
 
       if (error) throw error;
 
       alert('수정 완료');
-      navigate('/mainnewsfeed');
+      navigate(-1);
     } catch (err) {
       console.error(err);
       alert('수정 실패');
@@ -172,8 +172,7 @@ export default function MainNewsfeedUpdate() {
 
   const fetchPost = async () => {
     try {
-      const {
-        data: [postings],
+      const { data: [postings],
         error
       } = await supabase.from('postings').select().eq('posting_id', posting_id);
 
