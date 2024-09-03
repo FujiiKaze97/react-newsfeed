@@ -9,7 +9,6 @@ const MyPage = () => {
   const [profileUrl, setProfileUrl] = useState('');
   const fileInputRef = useRef(null);
   const [nickname, setNickname] = useState('');
-  const [newNickname, setNewNickname] = useState('');
   const [postings, setPostings] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupNickname, setPopupNickname] = useState(nickname);
@@ -24,8 +23,11 @@ const MyPage = () => {
       .select('profile_url, nick_nm')
       .eq('id', user.id);
 
-    const { data, error } = supabase.storage.from('avatars').getPublicUrl(profile[0].profile_url ?? 'image.png');
-    const imageUrl = `${SUPABASE_PROJECT_URL}/storage/v1/object/public/avatars/${profile[0].profile_url}`;
+    const profileUrl = profile[0].profile_url ? profile[0].profile_url : 'default-profile.jpg';
+
+    const { data, error } = supabase.storage.from('avatars').getPublicUrl(profileUrl);
+
+    const imageUrl = `${SUPABASE_PROJECT_URL}/storage/v1/object/public/avatars/${profileUrl}`;
 
     if (error) {
       console.error('Error fetching public URL:', error.message);
@@ -105,14 +107,25 @@ window.addEventListener('popstate', function() {
 
     const userId = sessionData.session.user.id; // 사용자 ID 가져오기
 
-    const { error: updateError } = await supabase.from('users').update({ nick_nm: newNickname }).eq('id', userId);
+    const { error: updateError } = await supabase.from('users').update({ nick_nm: popupNickname }).eq('id', userId);
 
     if (updateError) {
       console.error('Error updating nickname:', updateError.message);
+
+      await supabase
+        .from('postings')
+        .update({ nick_nm: popupNickname }) // 닉네임 업데이트
+        .eq('id', userId); // user_id 필드가 현재 사용자의 ID와 일치하는 모든 게시물
+
+      // 3. comments 테이블에서 닉네임 업데이트
+      await supabase
+        .from('comments')
+        .update({ nick_nm: popupNickname }) // 닉네임 업데이트
+        .eq('id', userId); // user_id 필드가 현재 사용자의 ID와 일치하는 모든 댓글
     } else {
-      setNickname(newNickname);
+      setNickname(popupNickname);
       // setNewNickname('');
-      alert('닉네임이 성공적으로 업데이트되었습니다.');
+      alert('닉네임이 성공적으로 업데이트되었으며, 관련된 게시물과 댓글에도 반영되었습니다.');
     }
   };
 
@@ -128,13 +141,13 @@ window.addEventListener('popstate', function() {
         }
 
         // 2. 사용자의 이메일을 가져옵니다.
-        const userEmail = sessionData.session.user.email;
+        const userId = sessionData.session.user.id;
 
         // 3. 이메일과 일치하는 포스팅 데이터를 조회합니다.
         const { data: postingsData, error: postingsError } = await supabase
           .from('postings')
-          .select('image, title')
-          .eq('user_id', userEmail); // user_id 필드가 사용자의 이메일과 일치하는 데이터를 조회
+          .select('posting_id, image, title')
+          .eq('id', userId); // user_id 필드가 사용자의 이메일과 일치하는 데이터를 조회
 
         if (postingsError) {
           console.error('Error fetching postings:', postingsError.message);
@@ -154,9 +167,10 @@ window.addEventListener('popstate', function() {
   return (
     <Wrapper>
       <LeftSection>
+        <button onClick={() => navigate('/mainnewsfeed')}>어서오시개!</button>
         <ProfileImage src={profileUrl} alt="Profile" />
         <Nickname>{nickname}</Nickname>
-        <button onClick={handleClick}>프로필 업로드하기</button>
+        <button onClick={handleClick}>프로필 이미지 변경</button>
         <input
           type="file"
           ref={fileInputRef}
@@ -254,7 +268,7 @@ const ProfileImage = styled.img`
 
 const PostingList = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem; // 아이템들 간의 간격 조정
 `;
 

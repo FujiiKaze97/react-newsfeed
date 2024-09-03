@@ -133,7 +133,7 @@ export default function MainNewsfeedWrite() {
     try {
       const { error } = await supabase
         .from('postings')
-        .insert({ ...form, image, user_id: session?.user.email })
+        .insert({ ...form, image, id: session?.user.id })
         .select();
 
       if (error) throw error;
