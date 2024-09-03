@@ -10,10 +10,12 @@ import {
   Info,
   Button,
   ButtonContainer,
-  CardContainer
+  CardContainer,
+  CenterButton
 } from './NewsfeedStyle'; // 스타일 import
 import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
+import styled from 'styled-components';
 
 const Newsfeed = () => {
   const [posts, setPosts] = useState([]);
@@ -45,15 +47,15 @@ const Newsfeed = () => {
   return (
     <Container>
       <ButtonContainer>
-        <Button onClick={() => navigate('/')}>어서오시개!</Button>
-        <Button onClick={() => navigate('/mypage')}>마이 페이지</Button>
-        <Button onClick={() => navigate('/mainnewsfeedwrite')}>글쓰기</Button>
-        <LogoutButton />
+        <div></div> {/* 왼쪽에 빈 공간 */}
+        <CenterButton onClick={() => navigate('/')}></CenterButton>
+        <div>
+          <Button onClick={() => navigate('/mypage')}>MyPage</Button>
+          <LogoutButton />
+        </div>
       </ButtonContainer>
       <CardContainer>
         {posts.map((post) => {
-          const writeUser = post.user_id ? post.user_id.split('@')[0] : '익명의 사용자';
-
           return (
             <Card key={post.posting_id} onClick={() => postingClick(post.posting_id)}>
               <CardImage
@@ -74,8 +76,28 @@ const Newsfeed = () => {
           );
         })}
       </CardContainer>
+      <AddButton onClick={() => navigate('/mainnewsfeedwrite')}>+</AddButton>
     </Container>
   );
 };
 
 export default Newsfeed;
+
+const AddButton = styled.button`
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  margin-left: auto;
+  font-size: 20px;
+  font-weight: 700;
+
+  /* 하단에 붙어있게 */
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  justify-content: center;
+  text-align: center;
+`;

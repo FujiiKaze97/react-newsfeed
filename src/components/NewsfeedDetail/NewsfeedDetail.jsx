@@ -142,7 +142,7 @@ const NewsfeedDetail = () => {
           />
           <CardContent>
             <Title>{post.title}</Title>
-            <Info>{post.contents}</Info>
+            <Info>{post.content}</Info>
             <Info>작성일 : {post.date}</Info>
             <Info>작성자 : {post.users.nick_nm}</Info>
           </CardContent>

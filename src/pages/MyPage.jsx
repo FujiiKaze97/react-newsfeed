@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import supabase, { SUPABASE_PROJECT_URL } from '../../supabase';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoutButton from '../components/LogoutButton';
+import { Button, ButtonContainer, CenterButton } from '../components/Newsfeed/NewsfeedStyle';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -160,11 +161,23 @@ const MyPage = () => {
 
   return (
     <Wrapper>
+      <ButtonContainer>
+        <div></div> {/* 왼쪽에 빈 공간 */}
+        <CenterButton onClick={() => navigate('/')}></CenterButton>
+        <div>
+          <LogoutButton />
+        </div>
+      </ButtonContainer>
       <LeftSection>
-        <button onClick={() => navigate('/mainnewsfeed')}>어서오시개!</button>
         <ProfileImage src={profileUrl} alt="Profile" />
         <Nickname>{nickname}</Nickname>
-        <button onClick={handleClick}>프로필 이미지 변경</button>
+        <StyledButton onClick={() => navigate('/mainnewsfeedwrite')}>글쓰기</StyledButton>
+        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <StyledButton onClick={handleClick}>프로필 이미지 변경</StyledButton>
+          <StyledButton type="button" onClick={openPopup}>
+            닉네임 수정
+          </StyledButton>
+        </div>
         <input
           type="file"
           ref={fileInputRef}
@@ -187,12 +200,6 @@ const MyPage = () => {
             </PopupContent>
           </PopupOverlay>
         )}
-        <button type="button" onClick={openPopup}>
-          닉네임 수정
-        </button>
-
-        <button onClick={() => navigate('/mainnewsfeedwrite')}>글쓰기</button>
-        <LogoutButton />
       </LeftSection>
 
       <RightSection>
@@ -231,12 +238,40 @@ export const LeftSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; // 컨텐츠를 위쪽으로 정렬
+  justify-content: space-evenly; // 버튼들을 맨 아래로 내리도록 설정
   background-color: #f5f5f5;
   padding: 2rem;
-  margin-right: 2rem; // 오른쪽 섹션과의 간격 조정
-  border-radius: 10px; // 모서리를 둥글게
-  height: 100%; // height를 자동으로 조정하여 내용에 맞게 변화
+  margin-right: 2rem;
+  border-radius: 10px;
+  height: 90%;
+  margin-top: 50px;
+  text-align: center;
+`;
+
+const StyledButton = styled.button`
+  padding: 10px 20px; // 버튼 안쪽 여백
+  font-size: 16px; // 폰트 크기
+  color: white; // 텍스트 색상
+  background-color: #007bff; // 배경색
+  border: none; // 테두리 제거
+  border-radius: 15px; // 둥근 모서리
+  cursor: pointer; // 마우스 커서를 포인터로 변경
+  transition: background-color 0.3s ease; // 배경색 변화에 애니메이션 추가
+
+  &:hover {
+    background-color: #0056b3; // 호버 시 배경색 변경
+  }
+
+  &:active {
+    background-color: #003f7f; // 클릭 시 배경색 변경
+  }
+
+  &:disabled {
+    background-color: #cccccc; // 비활성화 시 배경색 변경
+    cursor: not-allowed; // 비활성화 시 커서를 'not-allowed'로 변경
+  }
+
+  margin-bottom: 10px; // 버튼 간의 간격
 `;
 
 export const RightSection = styled.div`
@@ -247,6 +282,7 @@ export const RightSection = styled.div`
   text-align: center;
   width: 100%; // 포스팅 리스트가 넓게 퍼질 수 있도록 설정
   margin-left: 2rem; // LeftSection과의 간격 조정
+  margin-top: 50px;
 
   h2 {
     margin-bottom: 2rem; // 아이템들과의 간격을 적절히 조정
