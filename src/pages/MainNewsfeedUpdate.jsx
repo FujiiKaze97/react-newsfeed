@@ -143,7 +143,7 @@ export default function MainNewsfeedUpdate() {
       if (error) throw error;
 
       alert('수정 완료');
-      navigate('/mainnewsfeed');
+      navigate(-1);
     } catch (err) {
       console.error(err);
       alert('수정 실패');

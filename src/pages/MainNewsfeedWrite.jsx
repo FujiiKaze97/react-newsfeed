@@ -137,8 +137,8 @@ export default function MainNewsfeedWrite() {
       if (error) throw error;
 
       alert('Success!');
-      
-      navigate('/mainnewsfeed');
+
+      navigate(-1);
     } catch (err) {
       console.error(err);
       alert('Failed!');
