@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import supabase, { SUPABASE_PROJECT_URL } from '../../suparbase';
 import { Link, useNavigate } from 'react-router-dom';
+import LogoutButton from '../components/LogoutButton';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ const MyPage = () => {
   const [nickname, setNickname] = useState('');
   const [newNickname, setNewNickname] = useState('');
   const [postings, setPostings] = useState([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [popupNickname, setPopupNickname] = useState(nickname);
 
   const checkProfile = async () => {
     const {
@@ -71,6 +74,21 @@ const MyPage = () => {
     }
   };
 
+  const openPopup = () => {
+    setPopupNickname(nickname); // 팝업이 열릴 때 현재 닉네임으로 초기화
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handleUpdateNickname = () => {
+    setNickname(popupNickname);
+    updateNickname(popupNickname); // 기존 닉네임 수정 함수 호출
+    closePopup();
+  };
+
   const updateNickname = async () => {
     // 세션에서 사용자 정보 가져오기
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
@@ -87,7 +105,7 @@ const MyPage = () => {
       console.error('Error updating nickname:', updateError.message);
     } else {
       setNickname(newNickname);
-      setNewNickname('');
+      // setNewNickname('');
       alert('닉네임이 성공적으로 업데이트되었습니다.');
     }
   };
@@ -128,84 +146,181 @@ const MyPage = () => {
   }, []);
 
   return (
-    <Container>
-      <ProfileImage src={profileUrl} alt="Profile" />
-      <button onClick={handleClick}>프로필 업로드하기</button>
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={(e) => handleFileInputChange(e.target.files)}
-      />
-
-      <div>
-        <p>현재 닉네임: {nickname}</p>
+    <Wrapper>
+      <LeftSection>
+        <ProfileImage src={profileUrl} alt="Profile" />
+        <Nickname>{nickname}</Nickname>
+        <button onClick={handleClick}>프로필 업로드하기</button>
         <input
-          type="text"
-          value={newNickname}
-          onChange={(e) => setNewNickname(e.target.value)}
-          placeholder="새 닉네임을 입력하세요"
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={(e) => handleFileInputChange(e.target.files)}
         />
-        <button type="button" onClick={updateNickname}>
+
+        {isPopupOpen && (
+          <PopupOverlay onClick={closePopup}>
+            <PopupContent onClick={(e) => e.stopPropagation()}>
+              <h3>닉네임 수정</h3>
+              <input
+                type="text"
+                value={popupNickname}
+                onChange={(e) => setPopupNickname(e.target.value)}
+                placeholder="새 닉네임을 입력하세요"
+              />
+              <button onClick={handleUpdateNickname}>확인</button>
+              <button onClick={closePopup}>취소</button>
+            </PopupContent>
+          </PopupOverlay>
+        )}
+        <button type="button" onClick={openPopup}>
           닉네임 수정
         </button>
-      </div>
-      <button onClick={() => navigate('/mainnewsfeedwrite', { replace: true })}>글쓰기</button>
 
-      <h2>내 포스팅</h2>
-      <PostingList>
-        {postings.map((posting) => (
-          <Link key={posting.posting_id} to={`/mainnewsfeeddetail/${posting.posting_id}`}>
-            <PostingItem>
-              <img src={posting.image} alt={posting.title} />
-              <h3>{posting.title}</h3>
-            </PostingItem>
-          </Link>
-        ))}
-      </PostingList>
-    </Container>
+        <button onClick={() => navigate('/mainnewsfeedwrite', { replace: true })}>글쓰기</button>
+        <LogoutButton />
+      </LeftSection>
+
+      <RightSection>
+        <h2>내 포스팅</h2>
+        <PostingList>
+          {postings.map((posting) => (
+            <Link key={posting.posting_id} to={`/mainnewsfeeddetail/${posting.posting_id}`}>
+              <PostingItem>
+                <img src={posting.image} alt={posting.title} />
+                <h3>{posting.title}</h3>
+              </PostingItem>
+            </Link>
+          ))}
+        </PostingList>
+      </RightSection>
+    </Wrapper>
   );
 };
 
 export default MyPage;
 
-const Container = styled.div`
+export const Wrapper = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 2rem;
+`;
+
+export const LeftSection = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  justify-content: flex-start; // 컨텐츠를 위쪽으로 정렬
+  background-color: #f5f5f5;
+  padding: 2rem;
+  margin-right: 2rem; // 오른쪽 섹션과의 간격 조정
+  border-radius: 10px; // 모서리를 둥글게
+  height: 100%; // height를 자동으로 조정하여 내용에 맞게 변화
+`;
+
+export const RightSection = styled.div`
+  flex: 3; // LeftSection보다 더 넓게 설정
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 100%; // 포스팅 리스트가 넓게 퍼질 수 있도록 설정
+  margin-left: 2rem; // LeftSection과의 간격 조정
+
+  h2 {
+    margin-bottom: 2rem; // 아이템들과의 간격을 적절히 조정
+  }
 `;
 
 const ProfileImage = styled.img`
-  width: 150px;
-  height: 150px;
+  max-width: 200px;
+  max-height: 200px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 `;
 
 const PostingList = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem; // 아이템들 간의 간격 조정
 `;
 
 const PostingItem = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   text-align: center;
 
+  width: 200px; // 모든 아이템의 너비를 동일하게 설정
+  text-align: center;
+  margin-bottom: 20px;
+
   img {
-    max-width: 200px;
-    max-height: 200px;
-    /* object-fit: cover; */
+    width: 100%; // 이미지가 아이템의 전체 너비를 차지하도록 설정
+    height: 200px; // 모든 이미지의 높이를 동일하게 설정
+    object-fit: cover; // 이미지 비율을 유지하면서 크기에 맞춤
     border-radius: 10px;
     margin-bottom: 10px;
   }
 
   h3 {
     font-size: 16px;
+    margin: 0; // 제목 위아래 여백을 없애서 일관성 유지
   }
+
   &:hover {
-    opacity: 0.8;
+    opacity: 0.8; // 호버 시 투명도를 조정하여 사용자 피드백 제공
   }
+`;
+
+const PopupOverlay = styled.div`
+  // 화면 전체를 덮는 오버레이 스타일
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); // 투명한 검정 배경
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PopupContent = styled.div`
+  // 팝업 창 스타일
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+
+  h3 {
+    margin-bottom: 1rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  button {
+    margin: 0 0.5rem;
+  }
+`;
+
+const Nickname = styled.p`
+  font-size: 18px; // 폰트 크기 설정
+  font-weight: bold; // 굵은 폰트 설정
+  margin-top: 10px; // 프로필 이미지와의 간격 설정
+  margin-bottom: 20px; // 아래 컨텐츠와의 간격 설정
+  text-align: center; // 중앙 정렬
 `;
