@@ -66,10 +66,10 @@ supabase
 
 
 ## API 명세서
-https://nbcamp2024.slack.com/files/U07AVM2UU2U/F07KM4BUYH3/image.png
+
 
 ## ERD
-
+![image](https://nbcamp2024.slack.com/files/U07AVM2UU2U/F07KM4BUYH3/image.png)
 
 ## 프로젝트 파일 구조
 
