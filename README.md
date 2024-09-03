@@ -35,34 +35,38 @@
 
 
 ## ⏲️ 개발기간
-- 2024.02.26(월) ~ 2024.04.04(목)
+- 2024.08.28(수) ~ 2024.09.04(수)
 
 ## 📚️ 기술스택
 
 ### ✔️ Language
-
+JavaScript
 
 ### ✔️ Version Control
+git
 
 ### ✔️ IDE
+vscode
 
 ### ✔️ Framework
+react
 
 ### ✔️ Deploy
-
+Vercel
 
 ### ✔️  DBMS
+supabase
 
 ## 서비스 구조
 
 
 
 ## 와이어프레임
-
+![image](https://github.com/user-attachments/assets/2f11ab68-bb56-4bcd-9a07-80d18cdccd5f)
 
 
 ## API 명세서
-
+https://nbcamp2024.slack.com/files/U07AVM2UU2U/F07KM4BUYH3/image.png
 
 ## ERD
 
