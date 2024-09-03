@@ -12,8 +12,8 @@ function SessionProvider({ children }) {
     if (savedSession) {
       // 변환된 객체를 session 상태에 반영하세요.
       setSession(JSON.parse(savedSession));
-      }
-      
+    }
+
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((event, session) => {
