@@ -1,20 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import supabase, { SUPABASE_PROJECT_URL } from '../../suparbase';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+  const navigate = useNavigate();
   const [profileUrl, setProfileUrl] = useState('');
   const fileInputRef = useRef(null);
   const [nickname, setNickname] = useState('');
   const [newNickname, setNewNickname] = useState('');
-  const navigate = useNavigate();
+  const [postings, setPostings] = useState([]);
 
   const checkProfile = async () => {
     const {
       data: { user }
     } = await supabase.auth.getUser();
-    console.log(user);
+
     let { data: profile, error: usersError } = await supabase
       .from('users')
       .select('profile_url, nick_nm')
@@ -92,9 +93,40 @@ const MyPage = () => {
   };
 
   useEffect(() => {
+    const fetchPostings = async () => {
+      try {
+        // 1. 세션에서 사용자 정보를 가져옵니다.
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          console.error('Error fetching session:', sessionError.message);
+          return;
+        }
+
+        // 2. 사용자의 이메일을 가져옵니다.
+        const userEmail = sessionData.session.user.email;
+
+        // 3. 이메일과 일치하는 포스팅 데이터를 조회합니다.
+        const { data: postingsData, error: postingsError } = await supabase
+          .from('postings')
+          .select('image, title')
+          .eq('user_id', userEmail); // user_id 필드가 사용자의 이메일과 일치하는 데이터를 조회
+
+        if (postingsError) {
+          console.error('Error fetching postings:', postingsError.message);
+        } else {
+          // 4. 조회한 포스팅 데이터를 상태에 저장합니다.
+          setPostings(postingsData);
+        }
+      } catch (error) {
+        console.error('Error in fetchPostings:', error);
+      }
+    };
+
+    fetchPostings();
     checkProfile();
   }, []);
-  console.log(profileUrl);
+
   return (
     <Container>
       <ProfileImage src={profileUrl} alt="Profile" />
@@ -119,6 +151,18 @@ const MyPage = () => {
         </button>
       </div>
       <button onClick={() => navigate('/mainnewsfeedwrite', { replace: true })}>글쓰기</button>
+
+      <h2>내 포스팅</h2>
+      <PostingList>
+        {postings.map((posting) => (
+          <Link key={posting.posting_id} to={`/mainnewsfeeddetail/${posting.posting_id}`}>
+            <PostingItem>
+              <img src={posting.image} alt={posting.title} />
+              <h3>{posting.title}</h3>
+            </PostingItem>
+          </Link>
+        ))}
+      </PostingList>
     </Container>
   );
 };
@@ -138,4 +182,30 @@ const ProfileImage = styled.img`
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 20px;
+`;
+
+const PostingList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PostingItem = styled.div`
+  margin-bottom: 20px;
+  text-align: center;
+
+  img {
+    max-width: 200px;
+    max-height: 200px;
+    /* object-fit: cover; */
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
 `;
