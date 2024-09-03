@@ -4,9 +4,9 @@ import NewsfeedDetail from '../components/NewsfeedDetail/NewsfeedDetail';
 
 
 const MainNewsfeedDetail = () => {
-  const  id  = useParams(); // (1)
+  // const  id  = useParams(); // (1)
 
-  console.log(id);
+  // console.log(id);
 
 
   return (

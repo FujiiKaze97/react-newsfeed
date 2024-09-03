@@ -29,7 +29,7 @@ const Newsfeed = () => {
 
   const postingClick = async (posting_id) => {
     try {
-        navigate('mainnewsfeeddetail/'+posting_id);
+        navigate('/mainnewsfeeddetail/'+posting_id);
     } catch (e) {
       console.log(e);
     }
@@ -38,7 +38,7 @@ const Newsfeed = () => {
   return (
     <div>
       <button onClick={() => {
-        navigate('/');
+         navigate('/');
       }}>어서오시개!</button>
       <button onClick={() => {
         navigate('/mypage');

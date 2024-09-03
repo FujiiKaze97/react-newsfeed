@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
 // 1) project url
-const SUPABASE_PROJECT_URL = import.meta.env.VITE_SUPABASE_PROJECT_URL;
+export const SUPABASE_PROJECT_URL = import.meta.env.VITE_SUPABASE_PROJECT_URL;
 
 // 2) anon key
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
