@@ -150,7 +150,7 @@ const MyPage = () => {
       <LeftSection>
         <ProfileImage src={profileUrl} alt="Profile" />
         <Nickname>{nickname}</Nickname>
-        <button onClick={handleClick}>프로필 업로드하기</button>
+        <button onClick={handleClick}>프로필 이미지 변경</button>
         <input
           type="file"
           ref={fileInputRef}
