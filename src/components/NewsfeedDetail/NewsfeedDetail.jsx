@@ -26,13 +26,14 @@ const NewsfeedDetail = () => {
   const [newComment, setNewComment] = useState('');
   const navigate = useNavigate();
   const { session } = useContext(SessionContext);
+  console.log(session);
 
   useEffect(() => {
     const fetchData = async () => {
       if (session && session.user) {
         const { data: postData, error: postError } = await supabase
           .from('postings')
-          .select('*')
+          .select('*, users(nick_nm)')
           .eq('posting_id', id)
           .single();
 
@@ -44,7 +45,7 @@ const NewsfeedDetail = () => {
 
         const { data: commentsData, error: commentsError } = await supabase
           .from('comments')
-          .select('*')
+          .select('*, users(nick_nm)')
           .eq('posting_id', id);
 
         if (commentsError) {
@@ -67,9 +68,9 @@ const NewsfeedDetail = () => {
     const { data, error } = await supabase.from('comments').insert([
       {
         posting_id: id,
-        user_id: session.user.id,
-        content: newComment,
-        created_at: new Date().toISOString()
+        id: session.user.id,
+        contents: newComment,
+        writed_at: new Date().toISOString()
       }
     ]);
 
@@ -85,13 +86,13 @@ const NewsfeedDetail = () => {
     return <p>Loading...</p>;
   }
 
-  const writeUser = post.user_id ? post.user_id.split('@')[0] : '익명의 사용자';
+  const writeUser = post.id ? post.id.split('@')[0] : '익명의 사용자';
 
   return (
     <Container>
       <ButtonContainer>
         <Button onClick={() => navigate('/')}>어서오시개!</Button>
-        <Button onClick={() => navigate('/mypage')}>마이 프로필</Button>
+        <Button onClick={() => navigate('/mypage')}>마이 페이지</Button>
         <Button onClick={() => navigate('/mainnewsfeedwrite')}>글쓰기</Button>
         <LogoutButton />
       </ButtonContainer>
@@ -107,9 +108,9 @@ const NewsfeedDetail = () => {
           />
           <CardContent>
             <Title>{post.title}</Title>
-            <Info>{post.content}</Info>
+            <Info>{post.contents}</Info>
             <Info>작성일 : {post.date}</Info>
-            <Info>작성자 : {writeUser}</Info>
+            <Info>작성자 : {post.users.nick_nm}</Info>
           </CardContent>
         </Card>
       </CardContainer>
@@ -122,9 +123,9 @@ const NewsfeedDetail = () => {
         <CommentList>
           {comments.map((comment) => (
             <CommentItem key={comment.id}>
-              <p>{comment.content}</p>
-              <p>작성자: {comment.user_id}</p>
-              <p>작성일: {new Date(comment.created_at).toLocaleString()}</p>
+              <p>{comment.contents}</p>
+              <p>작성자: {comment.users.nick_nm}</p>
+              <p>작성일: {new Date(comment.writed_at).toLocaleString()}</p>
             </CommentItem>
           ))}
         </CommentList>

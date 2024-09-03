@@ -24,8 +24,11 @@ const MyPage = () => {
       .select('profile_url, nick_nm')
       .eq('id', user.id);
 
-    const { data, error } = supabase.storage.from('avatars').getPublicUrl(profile[0].profile_url ?? 'image.png');
-    const imageUrl = `${SUPABASE_PROJECT_URL}/storage/v1/object/public/avatars/${profile[0].profile_url}`;
+    const profileUrl = profile[0].profile_url ? profile[0].profile_url : 'default-profile.jpg';
+
+    const { data, error } = supabase.storage.from('avatars').getPublicUrl(profileUrl);
+
+    const imageUrl = `${SUPABASE_PROJECT_URL}/storage/v1/object/public/avatars/${profileUrl}`;
 
     if (error) {
       console.error('Error fetching public URL:', error.message);
@@ -122,14 +125,14 @@ const MyPage = () => {
         }
 
         // 2. 사용자의 이메일을 가져옵니다.
-        const userEmail = sessionData.session.user.email;
+        const userId = sessionData.session.user.id;
 
         // 3. 이메일과 일치하는 포스팅 데이터를 조회합니다.
         const { data: postingsData, error: postingsError } = await supabase
           .from('postings')
-          .select('image, title')
-          .eq('user_id', userEmail); // user_id 필드가 사용자의 이메일과 일치하는 데이터를 조회
-
+          .select('posting_id, image, title')
+          .eq('id', userId); // user_id 필드가 사용자의 이메일과 일치하는 데이터를 조회
+        console.log(postingsData);
         if (postingsError) {
           console.error('Error fetching postings:', postingsError.message);
         } else {
@@ -248,7 +251,7 @@ const ProfileImage = styled.img`
 
 const PostingList = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem; // 아이템들 간의 간격 조정
 `;
 
