@@ -6,6 +6,7 @@ import MainNewsfeed from '../pages/MainNewsfeed';
 import MainNewsfeedDetail from '../pages/MainNewsfeedDetail';
 import MainNewsfeedWrite from '../pages/MainNewsfeedWrite';
 import MyPage from '../pages/MyPage';
+import MainNewsfeedUpdate from '../pages/MainNewsfeedUpdate';
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
         <Route path="mainnewsfeed" element={<MainNewsfeed />} />
         <Route path="mainnewsfeeddetail/:id" element={<MainNewsfeedDetail />} />
         <Route path="mainnewsfeedwrite" element={<MainNewsfeedWrite />} />
+        <Route path="mainnewsfeedupdate/:post_id" element={<MainNewsfeedUpdate />} />
         <Route path="mypage" element={<MyPage />} />
       </Routes>
     </BrowserRouter>
