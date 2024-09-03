@@ -141,10 +141,13 @@ const NewsfeedDetail = () => {
             }
           />
           <CardContent>
+            <div>
             <Title>{post.title}</Title>
-            <Info>{post.content}</Info>
-            <Info>작성일 : {post.date}</Info>
-            <Info>작성자 : {post.users.nick_nm}</Info>
+            <Info>작성자 : {post.users.nick_nm} 작성일 : {post.date}</Info>
+            <br></br><br></br>
+            </div>
+      
+            <h3>{post.content}</h3>    
           </CardContent>
         </Card>
       </CardContainer>
@@ -154,7 +157,7 @@ const NewsfeedDetail = () => {
         )}
 
         <h3 style= {{cursor:"pointer"}}  onClick={() => updateClick(id)}>수정</h3>
-        </TextContainter>
+      </TextContainter>
       <CommentContainer>
       <CommentHeader>Comments</CommentHeader>
         <CommentForm>
@@ -164,13 +167,27 @@ const NewsfeedDetail = () => {
         <CommentList>
           {comments.map((comment) => (
             <CommentItem key={comment.comments_id}>
-              <p>{comment.contents}</p>
-              <p>작성자: {comment.users.nick_nm}</p>
-              <p>작성일: {new Date(comment.writed_at).toLocaleString()}</p>
 
-              {comment.id === session.user.id && (
-                <button onClick={() => handleDeleteComment(comment.comments_id)}>삭제</button>
+            <div style={{justifyContent: 'space-between', display:"flex"}}>
+              <h3 style={{fontWeight:"bold"}}>작성자 : {comment.users.nick_nm}</h3>
+             <Info>작성일 : {new Date(comment.writed_at).toLocaleString()}</Info>
+            </div>
+     
+            <div style={{justifyContent: 'space-between', display:"flex"}}>
+            <h3>{comment.contents}</h3>
+            {comment.id === session.user.id && (
+                <Info onClick={() => handleDeleteComment(comment.comments_id)}>삭제</Info>
               )}
+            </div>
+            <br></br>
+            <br></br>
+
+            <div style={{justifyContent: 'space-between', display:"flex"}}>
+              <h3 style={{fontWeight:"bold"}}>작성자 : {comment.users.nick_nm}</h3>
+             <Info>작성일 : {new Date(comment.writed_at).toLocaleString()}</Info>
+            </div>
+       
+            
             </CommentItem>
           ))}
         </CommentList>

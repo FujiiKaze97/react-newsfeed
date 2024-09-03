@@ -89,13 +89,15 @@ export const Title = styled.h1`
   margin: 0;
   border-bottom: 2px solid #f0f0f0;
   padding-bottom: 10px;
+  font-weight: bold;
 `;
 
 export const Info = styled.h5`
   margin: 0;
-  color: #555;
+  color: gray;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 12px;
 `;
 
 export const CommentContainer = styled.div`
