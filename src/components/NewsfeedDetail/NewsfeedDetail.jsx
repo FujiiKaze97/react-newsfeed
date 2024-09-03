@@ -34,7 +34,7 @@ const NewsfeedDetail = () => {
           .from('postings')
           .select('*, users(nick_nm)')
           .eq('posting_id', id)
-          .single();
+          .maybeSingle();
 
         if (postError) {
           console.error('Error fetching post:', postError);

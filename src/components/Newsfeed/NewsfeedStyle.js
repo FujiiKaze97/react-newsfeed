@@ -34,7 +34,7 @@ export const Button = styled.button`
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  
+
   &:hover {
     background-color: #0056b3;
   }
@@ -46,7 +46,7 @@ export const TextLink = styled.span`
   font-weight: bold;
   cursor: pointer;
   text-decoration: underline;
-  
+
   &:hover {
     color: #0056b3;
   }

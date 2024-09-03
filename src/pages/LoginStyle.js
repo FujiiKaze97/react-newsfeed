@@ -48,6 +48,7 @@ export const RightSection = styled.div`
   height: 70%;
   margin-left: 50px;
   margin-right: 50px;
+  align-items: center;
 
   @media (max-width: 768px) {
     margin-left: 0;
@@ -128,7 +129,6 @@ export const InputForm = styled.input`
 
 export const LoginButton = styled.button`
   padding: 0.75rem;
-  margin: 2rem;
   background-color: #4caf50;
   color: white;
   border: none;
@@ -138,6 +138,8 @@ export const LoginButton = styled.button`
   max-width: 300px;
   text-align: center;
   height: 40px;
+  align-items: center;
+  margin-top: 1.5rem;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -159,6 +161,7 @@ export const SocialLoginButtons = styled.div`
   justify-content: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  margin-top: 2rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
