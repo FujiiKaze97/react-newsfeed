@@ -40,9 +40,9 @@ export const Button = styled.button`
   cursor: pointer;
   margin-right: 20px;
   height: 30px;
-
+  background-color: #343a40;
   &:hover {
-    background-color: #0056b3;
+    background-color: #808080;
   }
 `;
 
@@ -57,6 +57,8 @@ export const CenterButton = styled.button`
   height: 100px;
   cursor: pointer;
 `;
+
+
 
 export const TextLink = styled.span`
   color: #007bff;
@@ -138,3 +140,23 @@ export const Info = styled.h5`
   text-overflow: ellipsis;
   white-space: nowrap; /* 줄바꿈 방지 */
 `;
+export const AddButton = styled.button`
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #f1a121;
+  color: white;
+  margin-left: auto;
+  font-size: 20px;
+  font-weight: 700;
+  padding-bottom : 10;
+
+  /* 하단에 붙어있게 */
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  justify-content: center;
+  text-align: center;
+`;
+

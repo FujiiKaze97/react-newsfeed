@@ -4,23 +4,24 @@ import supabase from '../../../supabase';
 import {
   Container,
   Card,
-  CardImage,
   CardContent,
   Title,
   Info,
   Button,
   ButtonContainer,
   CardContainer,
-  CenterButton
+  AddButton,
+  CenterButton,
 } from './NewsfeedStyle'; // 스타일 import
 import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
-import styled from 'styled-components';
+import LazyImage from '../ImgRender/RenderImg'; // LazyImage import
 
 const Newsfeed = () => {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
   const { session } = useContext(SessionContext);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,24 +45,10 @@ const Newsfeed = () => {
     }
   };
 
-  const handleDeletePost = async (posting_id) => {
-    try {
-      const { error } = await supabase.from('postings').delete().eq('posting_id', posting_id);
-
-      if (error) {
-        console.error('포스팅 삭제 중 에러 발생:', error);
-        return;
-      }
-      setPosts((posts) => posts.filter((post) => post.posting_id !== posting_id));
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return (
     <Container>
       <ButtonContainer>
-        <div></div> {/* 왼쪽에 빈 공간 */}
+      <div></div> {/* 왼쪽에 빈 공간 */}
         <CenterButton onClick={() => navigate('/')}></CenterButton>
         <div>
           <Button onClick={() => navigate('/mypage')}>MyPage</Button>
@@ -73,23 +60,21 @@ const Newsfeed = () => {
           return (
             <Card key={post.posting_id}>
               <div onClick={() => postingClick(post.posting_id)}>
-                <CardImage
-                  src={post.image}
-                  alt={post.title}
-                  onError={(e) =>
-                    (e.target.src =
-                      'https://sdkvrrggsuuhvxrvsobx.supabase.co/storage/v1/object/public/avatars/avatar_1725281697916.png')
-                  }
-                />
-                <CardContent>
-                  <Title>{post.title}</Title>
-                  <Info>{post.content}</Info>
-                  <Info>작성일 : {post.date}</Info>
-                  <Info>작성자 : {post.users ? post.users.nick_nm : '익명의 사용자'}</Info>
-                </CardContent>
+              <LazyImage
+                src={post.image}
+                alt={post.title}
+                onError={(e) =>
+                  (e.target.src =
+                    'https://sdkvrrggsuuhvxrvsobx.supabase.co/storage/v1/object/public/avatars/avatar_1725281697916.png')
+                }
+              />
+              <CardContent>
+                <Title>{post.title}</Title>
+                <Info>{post.content}</Info>
+                <Info>작성일 : {post.date}</Info>
+                <Info>작성자 : {post.users ? post.users.nick_nm : '익명의 사용자'}</Info>
+              </CardContent>
               </div>
-
-              {post.id === session.user.id && <button onClick={() => handleDeletePost(post.posting_id)}>삭제</button>}
             </Card>
           );
         })}
@@ -100,29 +85,3 @@ const Newsfeed = () => {
 };
 
 export default Newsfeed;
-
-const AddButton = styled.button`
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #f1a121;
-  color: white;
-  font-size: 20px;
-  font-weight: 700;
-  margin-left: auto;
-
-  /* 버튼 내부의 텍스트를 완벽하게 중앙에 정렬하기 위해 flex 사용 */
-  display: flex;
-  align-items: center; /* 수직 정렬 */
-  justify-content: center; /* 수평 정렬 */
-
-  /* 추가적인 중앙 정렬을 위한 line-height 설정 */
-  line-height: 50px; /* 버튼 높이와 동일하게 설정 */
-  padding: 0; /* 패딩을 없애서 텍스트가 중앙에 위치하도록 */
-
-  /* 하단에 고정되게 설정 */
-  position: fixed;
-  bottom: 50px;
-  right: 50px;
-`;
