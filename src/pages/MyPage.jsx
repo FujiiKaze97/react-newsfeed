@@ -43,12 +43,6 @@ const MyPage = () => {
     }
   };
 
-  history.pushState(null, null, document.URL);
-window.addEventListener('popstate', function() {
-    history.pushState(null, null, document.URL);
-    alert('뒤로가기 버튼이 눌렸습니다!');
-});
-
   const handleClick = () => {
     fileInputRef.current.click();
   };
@@ -197,7 +191,7 @@ window.addEventListener('popstate', function() {
           닉네임 수정
         </button>
 
-        <button onClick={() => navigate('/mainnewsfeedwrite', { replace: true })}>글쓰기</button>
+        <button onClick={() => navigate('/mainnewsfeedwrite')}>글쓰기</button>
         <LogoutButton />
       </LeftSection>
 
@@ -222,6 +216,7 @@ export default MyPage;
 
 export const Wrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
   height: 100vh;
   margin: 0 auto;
@@ -268,8 +263,8 @@ const ProfileImage = styled.img`
 
 const PostingList = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem; // 아이템들 간의 간격 조정
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem; // 아이템들 간의 간격 조정
 `;
 
 const PostingItem = styled.div`

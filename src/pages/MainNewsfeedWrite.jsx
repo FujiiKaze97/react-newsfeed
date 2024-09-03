@@ -114,8 +114,6 @@ const TextArea = styled.textarea`
   }
 `;
 
-
-
 export default function MainNewsfeedWrite() {
   const [form, setForm] = useState({ title: '', content: '', date: '' });
   const [image, setImage] = useState('');
@@ -164,29 +162,6 @@ export default function MainNewsfeedWrite() {
       setLoading(false);
     }
   };
-
-  const [locationKeys, setLocationKeys] = useState([]);
-
-useEffect(() => {
-  return history.listen((location) => {
-    if (history.action === "PUSH") {
-      setLocationKeys([location.key]);
-    }
-
-    if (history.action === "POP") {
-      if (locationKeys[1] === location.key) {
-        console.log("앞으로 가기 ");
-
-        // 앞으로 가기
-      } else {
-        setLocationKeys((keys) => [location.key, ...keys]);
-        console.log("뒤로가기");
-        // 뒤로 가기
-        
-      }
-    }
-  });
-}, [locationKeys, history]);
 
   return (
     <Container>

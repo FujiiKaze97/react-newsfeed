@@ -13,13 +13,13 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="login" element={<Login />} />
-        <Route path="loginaccount" element={<LoginAccount />} />
-        <Route path="mainnewsfeed" element={<MainNewsfeed />} />
-        <Route path="mainnewsfeeddetail/:id" element={<MainNewsfeedDetail />} />
-        <Route path="mainnewsfeedwrite" element={<MainNewsfeedWrite />} />
-        <Route path="mainnewsfeedupdate/:post_id" element={<MainNewsfeedUpdate />} />
-        <Route path="mypage" element={<MyPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/loginaccount" element={<LoginAccount />} />
+        <Route path="/mainnewsfeed" element={<MainNewsfeed />} />
+        <Route path="/mainnewsfeeddetail/:id" element={<MainNewsfeedDetail />} />
+        <Route path="/mainnewsfeedwrite" element={<MainNewsfeedWrite />} />
+        <Route path="/mainnewsfeedupdate/:post_id" element={<MainNewsfeedUpdate />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </BrowserRouter>
   );
