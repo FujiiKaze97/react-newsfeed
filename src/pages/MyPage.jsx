@@ -9,7 +9,6 @@ const MyPage = () => {
   const [profileUrl, setProfileUrl] = useState('');
   const fileInputRef = useRef(null);
   const [nickname, setNickname] = useState('');
-  const [newNickname, setNewNickname] = useState('');
   const [postings, setPostings] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupNickname, setPopupNickname] = useState(nickname);
@@ -102,14 +101,25 @@ const MyPage = () => {
 
     const userId = sessionData.session.user.id; // 사용자 ID 가져오기
 
-    const { error: updateError } = await supabase.from('users').update({ nick_nm: newNickname }).eq('id', userId);
+    const { error: updateError } = await supabase.from('users').update({ nick_nm: popupNickname }).eq('id', userId);
 
     if (updateError) {
       console.error('Error updating nickname:', updateError.message);
+
+      await supabase
+        .from('postings')
+        .update({ nick_nm: popupNickname }) // 닉네임 업데이트
+        .eq('id', userId); // user_id 필드가 현재 사용자의 ID와 일치하는 모든 게시물
+
+      // 3. comments 테이블에서 닉네임 업데이트
+      await supabase
+        .from('comments')
+        .update({ nick_nm: popupNickname }) // 닉네임 업데이트
+        .eq('id', userId); // user_id 필드가 현재 사용자의 ID와 일치하는 모든 댓글
     } else {
-      setNickname(newNickname);
+      setNickname(popupNickname);
       // setNewNickname('');
-      alert('닉네임이 성공적으로 업데이트되었습니다.');
+      alert('닉네임이 성공적으로 업데이트되었으며, 관련된 게시물과 댓글에도 반영되었습니다.');
     }
   };
 
@@ -132,7 +142,7 @@ const MyPage = () => {
           .from('postings')
           .select('posting_id, image, title')
           .eq('id', userId); // user_id 필드가 사용자의 이메일과 일치하는 데이터를 조회
-        console.log(postingsData);
+
         if (postingsError) {
           console.error('Error fetching postings:', postingsError.message);
         } else {
