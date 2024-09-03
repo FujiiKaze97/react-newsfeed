@@ -26,7 +26,6 @@ const NewsfeedDetail = () => {
   const [newComment, setNewComment] = useState('');
   const navigate = useNavigate();
   const { session } = useContext(SessionContext);
-  console.log(session);
 
   useEffect(() => {
     const fetchData = async () => {

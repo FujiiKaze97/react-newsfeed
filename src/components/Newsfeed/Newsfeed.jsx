@@ -23,7 +23,7 @@ const Newsfeed = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (session && session.user) {
-        const { data, error } = await supabase.from('postings').select('*');
+        const { data, error } = await supabase.from('postings').select('*, users(nick_nm)');
         if (error) {
           console.log(error);
         } else {
@@ -68,7 +68,7 @@ const Newsfeed = () => {
                 <Title>{post.title}</Title>
                 <Info>{post.content}</Info>
                 <Info>작성일 : {post.date}</Info>
-                <Info>작성자 : {writeUser}</Info>
+                <Info>작성자 : {post.users ? post.users.nick_nm : '익명의 사용자'}</Info>
               </CardContent>
             </Card>
           );
