@@ -68,7 +68,7 @@ const Login = () => {
           // 오류가 발생하면 알림을 표시합니다.
           alert('로그인에 실패했습니다. 다시 시도해주세요.');
         } else if (data) {
-          // setSession(data.session);
+          setSession(data.session);
           navigate('/mainnewsfeed');
         }
       } else {

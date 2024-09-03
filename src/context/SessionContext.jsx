@@ -7,6 +7,13 @@ function SessionProvider({ children }) {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
+    const savedSession = localStorage.getItem('session');
+
+    if (savedSession) {
+      // 변환된 객체를 session 상태에 반영하세요.
+      setSession(JSON.parse(savedSession));
+      }
+      
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((event, session) => {
