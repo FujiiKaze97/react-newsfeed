@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import supabase from '../../../suparbase';
+import LogoutButton from '../LogoutButton';
 
 const NewsfeedDetail = () => {
   // const { id } = useParams(); // (1)
@@ -8,7 +9,7 @@ const NewsfeedDetail = () => {
   const [post,setPost] = useState();
 
 
-// console.log(id);
+
 
   useEffect(()=> {
     const fetchData = async () => {
@@ -32,6 +33,7 @@ const NewsfeedDetail = () => {
     //       </div>
     <div>
       <h1>test</h1>
+      <LogoutButton></LogoutButton>
     </div>
   );
 };

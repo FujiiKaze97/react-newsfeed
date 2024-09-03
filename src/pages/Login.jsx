@@ -2,8 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../suparbase';
 import { SessionContext } from '../context/SessionContext';
-import { UserContext } from '../context/UserContext';
-import MainNewsfeed from './MainNewsfeed';
+
 import {
   Wrapper,
   LeftSection,

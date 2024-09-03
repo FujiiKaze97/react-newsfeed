@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SessionContext } from '../context/SessionContext';
-import LogoutButton from '../components/LogoutButton';
 import Newsfeed from '../components/Newsfeed/Newsfeed';
 
 const MainNewsfeed = () => {
@@ -18,7 +17,6 @@ const MainNewsfeed = () => {
   return (
     <div>
       <Newsfeed />
-      <LogoutButton />
     </div>
   );
 };
