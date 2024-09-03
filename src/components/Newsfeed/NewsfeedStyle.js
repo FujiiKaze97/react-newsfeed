@@ -58,8 +58,6 @@ export const CenterButton = styled.button`
   cursor: pointer;
 `;
 
-
-
 export const TextLink = styled.span`
   color: #007bff;
   font-size: 24px;
@@ -150,7 +148,7 @@ export const AddButton = styled.button`
   margin-left: auto;
   font-size: 20px;
   font-weight: 700;
-  padding-bottom : 10;
+  padding-bottom: 10;
 
   /* 하단에 붙어있게 */
   position: fixed;
@@ -159,4 +157,3 @@ export const AddButton = styled.button`
   justify-content: center;
   text-align: center;
 `;
-
