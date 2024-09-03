@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import supabase from '../../suparbase';
+import supabase from '../../supabase';
 
 const LoginAccount = () => {
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const LoginAccount = () => {
       console.log(e);
     }
   };
+  
   return (
     <div>
       <h1>회원가입 페이지 입니다</h1>

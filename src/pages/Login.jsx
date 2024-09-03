@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../suparbase';
+import supabase from '../../supabase';
 import { SessionContext } from '../context/SessionContext';
 
 import {
@@ -74,13 +74,12 @@ const Login = () => {
         const { data, error } = await supabase.auth.signInWithOAuth({
           provider: value //  OAuth 프로바이더 사용
         });
-        console.log(data);
 
         if (error) {
           // 오류가 발생하면 알림을 표시합니다.
           alert(value + '로그인에 실패했습니다. 다시 시도해주세요.');
         } else {
-          // navigate('/mainnewfeed');
+          navigate('/mainnewfeed');
         }
       }
     } catch (e) {
