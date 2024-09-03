@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import supabase from '../../supabase';
 import { SessionContext } from '../context/SessionContext';
-import { useEffect } from 'react';
 
 const Container = styled.div`
   max-width: 800px;
@@ -129,6 +128,7 @@ export default function MainNewsfeedWrite() {
 
   const handleAddPost = async () => {
     try {
+      console.log(session);
       const { error } = await supabase
         .from('postings')
         .insert({ ...form, image, id: session?.user.id })
@@ -137,6 +137,7 @@ export default function MainNewsfeedWrite() {
       if (error) throw error;
 
       alert('Success!');
+      
       navigate('/mainnewsfeed');
     } catch (err) {
       console.error(err);

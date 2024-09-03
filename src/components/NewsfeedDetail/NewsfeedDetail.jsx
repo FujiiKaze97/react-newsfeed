@@ -84,6 +84,15 @@ const NewsfeedDetail = () => {
     console.log(data);
   };
 
+  const updateClick = (posting_id) => {
+    try {
+      navigate('/mainnewsfeedupdate/' + posting_id);
+      console.log(posting_id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   if (!post) {
     return <p>Loading...</p>;
   }
@@ -94,6 +103,7 @@ const NewsfeedDetail = () => {
         <Button onClick={() => navigate('/')}>어서오시개!</Button>
         <Button onClick={() => navigate('/mypage')}>마이 페이지</Button>
         <Button onClick={() => navigate('/mainnewsfeedwrite')}>글쓰기</Button>
+        <Button onClick={() => updateClick(id)}>글 수정</Button>
         <LogoutButton />
       </ButtonContainer>
       <CardContainer>

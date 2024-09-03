@@ -9,7 +9,6 @@ import {
   WelcomeImage,
   WelcomeText,
   RightSection,
-  LoginTitle,
   InputContainer,
   InputLabel,
   InputForm,
@@ -96,7 +95,6 @@ const Login = () => {
         </LeftSection>
 
         <RightSection>
-          <LoginTitle>login</LoginTitle>
 
           <InputContainer>
             <InputLabel>이메일</InputLabel>
