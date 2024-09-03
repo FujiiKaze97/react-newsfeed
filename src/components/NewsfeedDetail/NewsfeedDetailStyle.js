@@ -21,6 +21,20 @@ export const ButtonContainer = styled.div`
   }
 `;
 
+export const TextContainter = styled.div`
+  display: flex;
+  justify-content: right;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 50%;
+  color : #a0a0a0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
 export const Button = styled.button`
   background-color: #007bff;
   color: white;

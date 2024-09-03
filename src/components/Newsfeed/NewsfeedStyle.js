@@ -145,7 +145,7 @@ export const AddButton = styled.button`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #343a40;
+  background-color: #f1a121;
   color: white;
   margin-left: auto;
   font-size: 20px;
@@ -160,8 +160,3 @@ export const AddButton = styled.button`
   text-align: center;
 `;
 
-export const LazyImage = styled.img`
-  width: 100%;
-  height: 40%; /* 카드 높이의 40% */
-  object-fit: cover; /* 이미지가 카드에 맞게 잘림 */
-`;

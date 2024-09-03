@@ -15,7 +15,8 @@ import {
   CommentForm,
   CommentList,
   CommentItem,
-  CommentHeader
+  CommentHeader,
+  TextContainter
 } from './NewsfeedDetailStyle';
 import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
@@ -127,8 +128,6 @@ const NewsfeedDetail = () => {
       <ButtonContainer>
         <Button onClick={() => navigate('/')}>어서오시개!</Button>
         <Button onClick={() => navigate('/mypage')}>마이 페이지</Button>
-        <Button onClick={() => navigate('/mainnewsfeedwrite')}>글쓰기</Button>
-        <Button onClick={() => updateClick(id)}>글 수정</Button>
         <LogoutButton />
       </ButtonContainer>
       <CardContainer>
@@ -149,11 +148,18 @@ const NewsfeedDetail = () => {
           </CardContent>
         </Card>
       </CardContainer>
+      <TextContainter>
+      {post.id === session.user.id && (
+        <h3 style= {{cursor:"pointer"}} onClick={() => handleDeletePost(id)}>삭제</h3>
+        )}
+
+        <h3 style= {{cursor:"pointer"}}  onClick={() => updateClick(id)}>수정</h3>
+        </TextContainter>
       <CommentContainer>
       <CommentHeader>Comments</CommentHeader>
         <CommentForm>
           <textarea value={newComment} onChange={handleCommentChange} placeholder="댓글을 작성하세요." rows="4" />
-          <button onClick={handleCommentSubmit}>댓글 남기기</button>
+          <button style={{color : "#f1a121"}}onClick={handleCommentSubmit}>댓글 남기기</button>
         </CommentForm>
         <CommentList>
           {comments.map((comment) => (

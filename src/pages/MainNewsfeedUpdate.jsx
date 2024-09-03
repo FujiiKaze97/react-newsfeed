@@ -182,11 +182,11 @@ export default function MainNewsfeedUpdate() {
 
       if (error) throw error;
 
-      if (session?.user.id !== postings.id) {
-        alert('게시물의 작성자가 아닙니다');
-        navigate('/');
-        return;
-      }
+      // if (session?.user.email !== postings.user_email) {
+      //   alert('게시물의 작성자가 아닙니다');
+      //   navigate('/');
+      //   return;
+      // }
 
       const { image, title, content, date } = postings;
 
