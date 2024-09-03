@@ -24,8 +24,8 @@ const Button = styled.button`
   font-size: 16px;
   text-align: center;
   margin-bottom: 12px;
-  background-color: ${({ variant }) => {
-    switch (variant) {
+  background-color: ${({ $variant }) => {
+    switch ($variant) {
       case 'upload':
         return '#fc819e';
       case 'submit':
@@ -35,8 +35,8 @@ const Button = styled.button`
     }
   }};
   &:hover {
-    background-color: ${({ variant }) => {
-      switch (variant) {
+    background-color: ${({ $variant }) => {
+      switch ($variant) {
         case 'upload':
           return '#f7418f';
         case 'submit':
@@ -172,7 +172,7 @@ export default function MainNewsfeedWrite() {
           <Placeholder>{loading ? 'Uploading...' : 'No Image'}</Placeholder>
         )}
       </ImageContainer>
-      <Button variant="upload" onClick={() => fileInputRef.current.click()}>
+      <Button $variant="upload" onClick={() => fileInputRef.current.click()}>
         파일 업로드
       </Button>
       <InputWrapper>
@@ -187,7 +187,7 @@ export default function MainNewsfeedWrite() {
         <InputLabel htmlFor="date">날짜:</InputLabel>
         <Input id="date" name="date" type="date" value={form.date} onChange={handleChange} />
       </InputWrapper>
-      <Button variant="submit" onClick={handleAddPost}>
+      <Button $variant="submit" onClick={handleAddPost}>
         업로드
       </Button>
     </Container>
