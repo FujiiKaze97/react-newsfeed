@@ -137,7 +137,7 @@ export default function MainNewsfeedUpdate() {
     try {
       const { error } = await supabase
         .from('postings')
-        .update({ ...form, image, user_email: session?.user.email })
+        .update({ ...form, image, id: session?.user.id })
         .eq('posting_id', posting_id);
 
       if (error) throw error;
@@ -172,8 +172,7 @@ export default function MainNewsfeedUpdate() {
 
   const fetchPost = async () => {
     try {
-      const {
-        data: [postings],
+      const { data: [postings],
         error
       } = await supabase.from('postings').select().eq('posting_id', posting_id);
 
