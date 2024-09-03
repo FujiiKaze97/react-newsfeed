@@ -18,7 +18,7 @@ const Router = () => {
         <Route path="/mainnewsfeed" element={<MainNewsfeed />} />
         <Route path="/mainnewsfeeddetail/:id" element={<MainNewsfeedDetail />} />
         <Route path="/mainnewsfeedwrite" element={<MainNewsfeedWrite />} />
-        <Route path="/mainnewsfeedupdate/:post_id" element={<MainNewsfeedUpdate />} />
+        <Route path="/mainnewsfeedupdate/:posting_id" element={<MainNewsfeedUpdate />} />
         <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </BrowserRouter>
