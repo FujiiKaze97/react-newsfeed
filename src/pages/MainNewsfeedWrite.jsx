@@ -1,7 +1,7 @@
 import { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import supabase from '../../suparbase';
+import supabase from '../../supabase';
 import { SessionContext } from '../context/SessionContext';
 
 const Container = styled.div`

@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../../suparbase';
+import supabase from '../../../supabase';
 import { Container, Card, CardImage, CardContent, Title, Info, Button, ButtonContainer, CardContainer } from './NewsfeedStyle'; // 스타일 import
 import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
 
 const Newsfeed = () => {
   const [posts, setPosts] = useState([]);
-  const { session } = useContext(SessionContext);
   const navigate = useNavigate();
+  const { session } = useContext(SessionContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +38,6 @@ const Newsfeed = () => {
         <Button onClick={() => navigate('/')}>어서오시개!</Button>
         <Button onClick={() => navigate('/mypage')}>마이 프로필</Button>
         <Button onClick={() => navigate('/mainnewsfeedwrite')}>글쓰기</Button>
-        <button onClick={() => navigate('/mainnewsfeedwrite', { replace: true })}>글쓰기</button>
         <LogoutButton />
       </ButtonContainer>
       <CardContainer>
