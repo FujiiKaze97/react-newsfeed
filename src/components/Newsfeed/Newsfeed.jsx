@@ -51,13 +51,11 @@ const Newsfeed = () => {
       if (error) {
         console.error('포스팅 삭제 중 에러 발생:', error);
         return;
-      } 
-          setPosts((posts)=> posts.filter((post) => post.posting_id !== posting_id));
       }
-     catch(e) {
+      setPosts((posts) => posts.filter((post) => post.posting_id !== posting_id));
+    } catch (e) {
       console.log(e);
     }
-    
   };
 
   return (
@@ -75,26 +73,23 @@ const Newsfeed = () => {
           return (
             <Card key={post.posting_id}>
               <div onClick={() => postingClick(post.posting_id)}>
-              <CardImage
-                src={post.image}
-                alt={post.title}
-                onError={(e) =>
-                  (e.target.src =
-                    'https://sdkvrrggsuuhvxrvsobx.supabase.co/storage/v1/object/public/avatars/avatar_1725281697916.png')
-                }
-              />
-              <CardContent>
-                <Title>{post.title}</Title>
-                <Info>{post.content}</Info>
-                <Info>작성일 : {post.date}</Info>
-                <Info>작성자 : {post.users ? post.users.nick_nm : '익명의 사용자'}</Info>
-           
-              </CardContent>
+                <CardImage
+                  src={post.image}
+                  alt={post.title}
+                  onError={(e) =>
+                    (e.target.src =
+                      'https://sdkvrrggsuuhvxrvsobx.supabase.co/storage/v1/object/public/avatars/avatar_1725281697916.png')
+                  }
+                />
+                <CardContent>
+                  <Title>{post.title}</Title>
+                  <Info>{post.content}</Info>
+                  <Info>작성일 : {post.date}</Info>
+                  <Info>작성자 : {post.users ? post.users.nick_nm : '익명의 사용자'}</Info>
+                </CardContent>
               </div>
-    
-              {post.id === session.user.id && (
-                    <button onClick={() => handleDeletePost(post.posting_id)}>삭제</button>
-                )}
+
+              {post.id === session.user.id && <button onClick={() => handleDeletePost(post.posting_id)}>삭제</button>}
             </Card>
           );
         })}
@@ -111,16 +106,23 @@ const AddButton = styled.button`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #007bff;
+  background-color: #f1a121;
   color: white;
-  margin-left: auto;
   font-size: 20px;
   font-weight: 700;
+  margin-left: auto;
 
-  /* 하단에 붙어있게 */
+  /* 버튼 내부의 텍스트를 완벽하게 중앙에 정렬하기 위해 flex 사용 */
+  display: flex;
+  align-items: center; /* 수직 정렬 */
+  justify-content: center; /* 수평 정렬 */
+
+  /* 추가적인 중앙 정렬을 위한 line-height 설정 */
+  line-height: 50px; /* 버튼 높이와 동일하게 설정 */
+  padding: 0; /* 패딩을 없애서 텍스트가 중앙에 위치하도록 */
+
+  /* 하단에 고정되게 설정 */
   position: fixed;
   bottom: 50px;
   right: 50px;
-  justify-content: center;
-  text-align: center;
 `;
