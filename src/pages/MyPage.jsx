@@ -43,6 +43,12 @@ const MyPage = () => {
     }
   };
 
+  history.pushState(null, null, document.URL);
+window.addEventListener('popstate', function() {
+    history.pushState(null, null, document.URL);
+    alert('뒤로가기 버튼이 눌렸습니다!');
+});
+
   const handleClick = () => {
     fileInputRef.current.click();
   };
