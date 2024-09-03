@@ -151,6 +151,7 @@ const MyPage = () => {
   return (
     <Wrapper>
       <LeftSection>
+        <button onClick={() => navigate('/mainnewsfeed')}>어서오시개!</button>
         <ProfileImage src={profileUrl} alt="Profile" />
         <Nickname>{nickname}</Nickname>
         <button onClick={handleClick}>프로필 이미지 변경</button>
