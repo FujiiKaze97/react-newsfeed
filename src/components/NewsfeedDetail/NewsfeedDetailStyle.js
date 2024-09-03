@@ -53,8 +53,6 @@ export const Card = styled.div`
   transition: transform 0.2s;
   display: flex;
   flex-direction: column;
-
-
 `;
 
 export const CardImage = styled.img`
@@ -68,6 +66,14 @@ export const CardContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  font-family: 'TTLaundryGothicB';
+
+  @font-face {
+    font-family: 'TTLaundryGothicB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
 `;
 
 export const Title = styled.h1`
@@ -89,6 +95,15 @@ export const CommentContainer = styled.div`
   max-width: 800px;
   margin-top: 20px;
   margin: 0 auto;
+
+  font-family: 'TTLaundryGothicB';
+
+  @font-face {
+    font-family: 'TTLaundryGothicB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
 `;
 
 export const CommentForm = styled.div`
@@ -133,5 +148,13 @@ export const CommentItem = styled.div`
 
   p {
     margin: 5px 0;
+  }
+  font-family: 'JNE-Yuna-TTF-Regular';
+
+  @font-face {
+    font-family: 'JNE-Yuna-TTF-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-1@1.0/JNE-Yuna-TTF-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
   }
 `;
