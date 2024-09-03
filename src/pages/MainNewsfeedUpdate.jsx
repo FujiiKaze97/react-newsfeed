@@ -223,6 +223,7 @@ export default function MainNewsfeedUpdate() {
         <InputLabel htmlFor="date">날짜:</InputLabel>
         <Input id="date" name="date" type="date" value={form.date} onChange={handleChange} />
       </InputWrapper>
+
       <Button $variant="submit" onClick={handleUpdatePost}>
         수정하기
       </Button>

@@ -14,11 +14,15 @@ export const Container = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
+  position: fixed;
+  transform: translateY(0%); /* 버튼의 높이를 기준으로 중앙 맞춤 */
+  z-index: 1000; /* 버튼이 다른 요소 위에 오도록 보장 */
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 10px; /* 버튼 사이의 간격 */
   margin-bottom: 20px; /* 버튼과 카드 사이의 간격 */
-  width: 100%;
+  width: 95%;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -30,17 +34,36 @@ export const Button = styled.button`
   background-color: #007bff;
   color: white;
   border: none;
+<<<<<<< HEAD
   background-image: url('/dog.png'); /* public 폴더의 루트 경로로 접근 */
   background-repeat: no-repeat; /* 배경 이미지 반복 방지 */
   background-position: center; /* 이미지 중앙 정렬 */
   border-radius: 4px;
   padding: 10px 20px;
   font-size: 16px;
+=======
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-size: 10px;
+>>>>>>> ff5a3b846a2f517b2e3411518523f43eff74107f
   cursor: pointer;
+  margin-right: 20px;
+  height: 30px;
 
   &:hover {
     background-color: #0056b3;
   }
+`;
+
+export const CenterButton = styled.button`
+  position: absolute;
+  left: 47%;
+  transform: translateX(-30%); /* 중앙으로 이동 */
+  transform: translateY(-40%);
+  background-image: url('/dog.png');
+  background-size: cover;
+  width: 100px;
+  height: 100px;
 `;
 
 export const TextLink = styled.span`
@@ -60,6 +83,7 @@ export const CardContainer = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   width: 100%;
+  padding-top: 60px;
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
