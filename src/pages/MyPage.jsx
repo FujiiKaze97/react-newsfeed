@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import supabase, { SUPABASE_PROJECT_URL } from '../../suparbase';
+import supabase, { SUPABASE_PROJECT_URL } from '../../supabase';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoutButton from '../components/LogoutButton';
 

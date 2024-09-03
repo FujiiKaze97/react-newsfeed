@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import supabase from '../../suparbase';
+import supabase from '../../supabase';
 import { SessionContext } from '../context/SessionContext';
 import { useNavigate } from 'react-router-dom';
 

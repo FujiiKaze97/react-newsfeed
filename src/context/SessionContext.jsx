@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import supabase from '../../suparbase';
+import supabase from '../../supabase';
 
 export const SessionContext = createContext(null);
 
