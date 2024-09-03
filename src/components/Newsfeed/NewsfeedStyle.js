@@ -30,6 +30,9 @@ export const Button = styled.button`
   background-color: #007bff;
   color: white;
   border: none;
+  background-image: url('/dog.png'); /* public 폴더의 루트 경로로 접근 */
+  background-repeat: no-repeat; /* 배경 이미지 반복 방지 */
+  background-position: center; /* 이미지 중앙 정렬 */
   border-radius: 4px;
   padding: 10px 20px;
   font-size: 16px;
@@ -80,7 +83,7 @@ export const Card = styled.div`
   }
 `;
 
-export const CardImage = styled.img`
+export const LazyImage = styled.img`
   width: 100%;
   height: 50%; /* 이미지의 고정 높이 조정 */
   object-fit: cover; /* 이미지가 카드에 맞게 잘림 */

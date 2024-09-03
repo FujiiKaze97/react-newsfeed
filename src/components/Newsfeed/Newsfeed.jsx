@@ -4,7 +4,6 @@ import supabase from '../../../supabase';
 import {
   Container,
   Card,
-  CardImage,
   CardContent,
   Title,
   Info,
@@ -14,11 +13,14 @@ import {
 } from './NewsfeedStyle'; // 스타일 import
 import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
+import LazyImage from '../ImgRender/RenderImg'; // LazyImage import
+import { LazyImage } from '../LazyImage'; // 새로 정의한 LazyImage import
 
 const Newsfeed = () => {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
   const { session } = useContext(SessionContext);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +73,7 @@ const Newsfeed = () => {
           return (
             <Card key={post.posting_id}>
               <div onClick={() => postingClick(post.posting_id)}>
-              <CardImage
+              <LazyImage
                 src={post.image}
                 alt={post.title}
                 onError={(e) =>
