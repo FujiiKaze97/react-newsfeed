@@ -11,7 +11,7 @@ import {
   RightSection,
   LoginTitle,
   InputContainer,
-  InputLable,
+  InputLabel,
   InputForm,
   LoginButton,
   SocialLoginButtons,
@@ -99,7 +99,7 @@ const Login = () => {
           <LoginTitle>login</LoginTitle>
 
           <InputContainer>
-            <InputLable>이메일</InputLable>
+            <InputLabel>이메일</InputLabel>
 
             <InputForm
               type="email"
@@ -111,7 +111,7 @@ const Login = () => {
           </InputContainer>
 
           <InputContainer>
-            <InputLable>비밀번호</InputLable>
+            <InputLabel>비밀번호</InputLabel>
             <InputForm
               type="password"
               value={password}
@@ -119,9 +119,9 @@ const Login = () => {
                 setPassword(e.target.value);
               }}
             />
-
-            <LoginButton onClick={() => handleLogin('email')}>로그인</LoginButton>
           </InputContainer>
+          
+          <LoginButton onClick={() => handleLogin('email')}>로그인</LoginButton>
 
           <SocialLoginButtons>
             {/* GitHub로 로그인하는 버튼 */}

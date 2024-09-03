@@ -36,31 +36,25 @@ export const Button = styled.button`
 `;
 
 export const CardContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-  }
+  margin-top: 20px;
 `;
 
 export const Card = styled.div`
   width: 100%;
-  max-width: 100%;
-  height: 300px;
+  max-width: 600px;
+  height: auto;
   border: 1px solid #e0e0e0;
   overflow: hidden;
   background-color: #fff;
-  cursor: pointer;
   transition: transform 0.2s;
   display: flex;
   flex-direction: column;
 
-  &:hover {
-    transform: scale(1.03);
-  }
+
 `;
 
 export const CardImage = styled.img`

@@ -104,7 +104,7 @@ const NewsfeedDetail = () => {
           <textarea
             value={newComment}
             onChange={handleCommentChange}
-            placeholder="댓글을 작성하세요..."
+            placeholder="댓글을 작성하세요."
             rows="4"
           />
           <button onClick={handleCommentSubmit}>댓글 남기기</button>
