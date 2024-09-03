@@ -97,9 +97,15 @@ const NewsfeedDetail = () => {
   }
 
   const handleDeleteComment = async (commentId) => {
-    // 1. 먼저, 삭제하려는 댓글이 현재 유저가 작성한 것인지 확인합니다.
+    // 삭제 확인 팝업창을 띄웁니다.
+    const isConfirmed = window.confirm('정말 이 댓글을 삭제하시겠습니까?');
 
-    // 2. 댓글 삭제 작업을 진행합니다.
+    // 사용자가 "취소"를 클릭한 경우, 삭제 작업을 중단합니다.
+    if (!isConfirmed) {
+      return; // 삭제 작업을 중단합니다.
+    }
+
+    // 댓글 삭제 작업을 진행합니다.
     const { error } = await supabase.from('comments').delete().eq('comments_id', commentId);
 
     if (error) {
