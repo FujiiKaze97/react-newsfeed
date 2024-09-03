@@ -37,6 +37,8 @@ const Newsfeed = () => {
       <ButtonContainer>
         <Button onClick={() => navigate('/')}>어서오시개!</Button>
         <Button onClick={() => navigate('/mypage')}>마이 프로필</Button>
+        <Button onClick={() => navigate('/mainnewsfeedwrite')}>글쓰기</Button>
+        <button onClick={() => navigate('/mainnewsfeedwrite', { replace: true })}>글쓰기</button>
         <LogoutButton />
       </ButtonContainer>
       <CardContainer>
