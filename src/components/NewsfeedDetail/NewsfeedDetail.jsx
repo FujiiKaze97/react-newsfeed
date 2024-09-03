@@ -81,12 +81,30 @@ const NewsfeedDetail = () => {
       setComments(commentsData);
       setNewComment('');
     }
-    console.log(data);
   };
 
   if (!post) {
     return <p>Loading...</p>;
   }
+
+  const handleDeleteComment = async (commentId) => {
+    // 1. 먼저, 삭제하려는 댓글이 현재 유저가 작성한 것인지 확인합니다.
+
+    // 2. 댓글 삭제 작업을 진행합니다.
+    const { error } = await supabase.from('comments').delete().eq('comments_id', commentId);
+
+    if (error) {
+      console.error('댓글 삭제 중 에러 발생:', error);
+    } else {
+      // 댓글 삭제 후, 최신 댓글 리스트를 다시 불러옵니다.
+      const { data: updatedComments } = await supabase
+        .from('comments')
+        .select('*, users(nick_nm)')
+        .eq('posting_id', id);
+
+      setComments(updatedComments); // 상태를 업데이트하여 화면에 반영합니다.
+    }
+  };
 
   return (
     <Container>
@@ -122,10 +140,14 @@ const NewsfeedDetail = () => {
         </CommentForm>
         <CommentList>
           {comments.map((comment) => (
-            <CommentItem key={comment.id}>
+            <CommentItem key={comment.comments_id}>
               <p>{comment.contents}</p>
               <p>작성자: {comment.users.nick_nm}</p>
               <p>작성일: {new Date(comment.writed_at).toLocaleString()}</p>
+
+              {comment.id === session.user.id && (
+                <button onClick={() => handleDeleteComment(comment.comments_id)}>삭제</button>
+              )}
             </CommentItem>
           ))}
         </CommentList>
