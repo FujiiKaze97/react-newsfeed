@@ -2,9 +2,10 @@ import SessionProvider from './context/SessionContext';
 import Router from './shared/Router';
 
 const App = () => {
+
   return (
     <SessionProvider>
-      <Router />
+        <Router />
     </SessionProvider>
   );
 };
