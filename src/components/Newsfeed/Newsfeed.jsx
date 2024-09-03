@@ -10,16 +10,12 @@ import {
   Button,
   ButtonContainer,
   CardContainer,
-  CenterButton
+  AddButton,
+  CenterButton,
 } from './NewsfeedStyle'; // 스타일 import
 import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
-<<<<<<< HEAD
 import LazyImage from '../ImgRender/RenderImg'; // LazyImage import
-import { LazyImage } from '../LazyImage'; // 새로 정의한 LazyImage import
-=======
-import styled from 'styled-components';
->>>>>>> ff5a3b846a2f517b2e3411518523f43eff74107f
 
 const Newsfeed = () => {
   const [posts, setPosts] = useState([]);
@@ -49,26 +45,10 @@ const Newsfeed = () => {
     }
   };
 
-  const handleDeletePost = async (posting_id) => {
-    try {
-      const { error } = await supabase.from('postings').delete().eq('posting_id', posting_id);
-
-      if (error) {
-        console.error('포스팅 삭제 중 에러 발생:', error);
-        return;
-      } 
-          setPosts((posts)=> posts.filter((post) => post.posting_id !== posting_id));
-      }
-     catch(e) {
-      console.log(e);
-    }
-    
-  };
-
   return (
     <Container>
       <ButtonContainer>
-        <div></div> {/* 왼쪽에 빈 공간 */}
+      <div></div> {/* 왼쪽에 빈 공간 */}
         <CenterButton onClick={() => navigate('/')}></CenterButton>
         <div>
           <Button onClick={() => navigate('/mypage')}>MyPage</Button>
@@ -93,13 +73,8 @@ const Newsfeed = () => {
                 <Info>{post.content}</Info>
                 <Info>작성일 : {post.date}</Info>
                 <Info>작성자 : {post.users ? post.users.nick_nm : '익명의 사용자'}</Info>
-           
               </CardContent>
               </div>
-    
-              {post.id === session.user.id && (
-                    <button onClick={() => handleDeletePost(post.posting_id)}>삭제</button>
-                )}
             </Card>
           );
         })}
@@ -110,22 +85,3 @@ const Newsfeed = () => {
 };
 
 export default Newsfeed;
-
-const AddButton = styled.button`
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #007bff;
-  color: white;
-  margin-left: auto;
-  font-size: 20px;
-  font-weight: 700;
-
-  /* 하단에 붙어있게 */
-  position: fixed;
-  bottom: 50px;
-  right: 50px;
-  justify-content: center;
-  text-align: center;
-`;

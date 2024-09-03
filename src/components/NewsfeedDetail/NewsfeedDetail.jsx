@@ -14,7 +14,8 @@ import {
   CommentContainer,
   CommentForm,
   CommentList,
-  CommentItem
+  CommentItem,
+  CommentHeader
 } from './NewsfeedDetailStyle';
 import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
@@ -149,7 +150,7 @@ const NewsfeedDetail = () => {
         </Card>
       </CardContainer>
       <CommentContainer>
-        <h3>댓글</h3>
+      <CommentHeader>Comments</CommentHeader>
         <CommentForm>
           <textarea value={newComment} onChange={handleCommentChange} placeholder="댓글을 작성하세요." rows="4" />
           <button onClick={handleCommentSubmit}>댓글 남기기</button>

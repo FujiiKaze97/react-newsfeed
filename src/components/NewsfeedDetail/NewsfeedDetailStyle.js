@@ -87,8 +87,7 @@ export const Info = styled.h5`
 export const CommentContainer = styled.div`
   width: 80%;
   max-width: 800px;
-  margin-top: 20px;
-  margin: 0 auto;
+  margin-top: 50px;
 `;
 
 export const CommentForm = styled.div`
@@ -134,4 +133,14 @@ export const CommentItem = styled.div`
   p {
     margin: 5px 0;
   }
+`;
+
+
+export const CommentHeader = styled.h3`
+  font-size: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
 `;

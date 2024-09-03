@@ -34,24 +34,15 @@ export const Button = styled.button`
   background-color: #007bff;
   color: white;
   border: none;
-<<<<<<< HEAD
-  background-image: url('/dog.png'); /* public 폴더의 루트 경로로 접근 */
-  background-repeat: no-repeat; /* 배경 이미지 반복 방지 */
-  background-position: center; /* 이미지 중앙 정렬 */
-  border-radius: 4px;
-  padding: 10px 20px;
-  font-size: 16px;
-=======
   border-radius: 15px;
   padding: 5px 10px;
   font-size: 10px;
->>>>>>> ff5a3b846a2f517b2e3411518523f43eff74107f
   cursor: pointer;
   margin-right: 20px;
   height: 30px;
-
+  background-color: #343a40;
   &:hover {
-    background-color: #0056b3;
+    background-color: #808080;
   }
 `;
 
@@ -65,6 +56,8 @@ export const CenterButton = styled.button`
   width: 100px;
   height: 100px;
 `;
+
+
 
 export const TextLink = styled.span`
   color: #007bff;
@@ -107,7 +100,7 @@ export const Card = styled.div`
   }
 `;
 
-export const LazyImage = styled.img`
+export const CardImage = styled.img`
   width: 100%;
   height: 50%; /* 이미지의 고정 높이 조정 */
   object-fit: cover; /* 이미지가 카드에 맞게 잘림 */
@@ -145,4 +138,29 @@ export const Info = styled.h5`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; /* 줄바꿈 방지 */
+`;
+export const AddButton = styled.button`
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #343a40;
+  color: white;
+  margin-left: auto;
+  font-size: 20px;
+  font-weight: 700;
+  padding-bottom : 10;
+
+  /* 하단에 붙어있게 */
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  justify-content: center;
+  text-align: center;
+`;
+
+export const LazyImage = styled.img`
+  width: 100%;
+  height: 40%; /* 카드 높이의 40% */
+  object-fit: cover; /* 이미지가 카드에 맞게 잘림 */
 `;
