@@ -34,7 +34,7 @@ const NewsfeedDetail = () => {
           .from('postings')
           .select('*, users(nick_nm)')
           .eq('posting_id', id)
-          .single();
+          .maybeSingle();
 
         if (postError) {
           console.error('Error fetching post:', postError);
@@ -63,29 +63,30 @@ const NewsfeedDetail = () => {
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() === '') return;
-
-    const { data, error } = await supabase.from('comments').insert([
-      {
-        posting_id: id,
-        id: session.user.id,
-        contents: newComment,
-        writed_at: new Date().toISOString()
-      }
-    ]);
+    const newData = {
+      posting_id: id,
+      id: session.user.id,
+      contents: newComment,
+      writed_at: new Date().toISOString()
+    };
+    const { data, error } = await supabase.from('comments').insert([newData]);
 
     if (error) {
       console.error('Error adding comment:', error);
     } else {
-      setComments([...comments, ...data]);
+      const { data: commentsData, error: commentsError } = await supabase
+        .from('comments')
+        .select('*, users(nick_nm)')
+        .eq('posting_id', id);
+      setComments(commentsData);
       setNewComment('');
     }
+    console.log(data);
   };
 
   if (!post) {
     return <p>Loading...</p>;
   }
-
-  const writeUser = post.id ? post.id.split('@')[0] : '익명의 사용자';
 
   return (
     <Container>
