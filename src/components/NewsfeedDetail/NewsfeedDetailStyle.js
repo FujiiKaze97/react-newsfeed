@@ -21,6 +21,20 @@ export const ButtonContainer = styled.div`
   }
 `;
 
+export const TextContainter = styled.div`
+  display: flex;
+  justify-content: right;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 50%;
+  color: #a0a0a0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
 export const Button = styled.button`
   background-color: #007bff;
   color: white;
@@ -93,8 +107,7 @@ export const Info = styled.h5`
 export const CommentContainer = styled.div`
   width: 80%;
   max-width: 800px;
-  margin-top: 20px;
-  margin: 0 auto;
+  margin-top: 50px;
 
   font-family: 'TTLaundryGothicB';
 
@@ -149,12 +162,13 @@ export const CommentItem = styled.div`
   p {
     margin: 5px 0;
   }
-  font-family: 'JNE-Yuna-TTF-Regular';
+`;
 
-  @font-face {
-    font-family: 'JNE-Yuna-TTF-Regular';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-1@1.0/JNE-Yuna-TTF-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-  }
+export const CommentHeader = styled.h3`
+  font-size: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
 `;
