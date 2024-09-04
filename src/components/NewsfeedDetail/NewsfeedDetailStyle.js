@@ -4,8 +4,10 @@ export const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 100px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -14,6 +16,7 @@ export const ButtonContainer = styled.div`
   gap: 10px;
   margin-bottom: 20px;
   width: 100%;
+
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -26,7 +29,7 @@ export const TextContainter = styled.div`
   justify-content: right;
   gap: 10px;
   margin-bottom: 20px;
-  width: 50%;
+  width: 45%;
   color: #a0a0a0;
 
   @media (max-width: 768px) {
@@ -87,13 +90,15 @@ export const Title = styled.h1`
   margin: 0;
   border-bottom: 2px solid #f0f0f0;
   padding-bottom: 10px;
+  font-weight: bold;
 `;
 
 export const Info = styled.h5`
   margin: 0;
-  color: #555;
+  color: gray;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 12px;
 `;
 
 export const CommentContainer = styled.div`
