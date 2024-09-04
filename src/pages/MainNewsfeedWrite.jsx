@@ -138,11 +138,11 @@ export default function MainNewsfeedWrite() {
 
       if (error) throw error;
 
-      alert('Success!');
+      alert('작성 완료');
       navigate('/mainnewsfeed');
     } catch (err) {
       console.error(err);
-      alert('Failed!');
+      alert('작성 실패');
     }
   };
 
