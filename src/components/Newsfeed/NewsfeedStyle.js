@@ -44,6 +44,9 @@ export const Button = styled.button`
   &:hover {
     background-color: #808080;
   }
+  &:active {
+    background-color: #808080; // 클릭 시 배경색 변경
+  }
 `;
 
 export const CenterButton = styled.button`

@@ -252,18 +252,18 @@ const StyledButton = styled.button`
   padding: 10px 20px; // 버튼 안쪽 여백
   font-size: 16px; // 폰트 크기
   color: white; // 텍스트 색상
-  background-color: #007bff; // 배경색
+  background-color: #ff5697; // 배경색
   border: none; // 테두리 제거
   border-radius: 15px; // 둥근 모서리
   cursor: pointer; // 마우스 커서를 포인터로 변경
   transition: background-color 0.3s ease; // 배경색 변화에 애니메이션 추가
 
   &:hover {
-    background-color: #0056b3; // 호버 시 배경색 변경
+    background-color: #b20246; // 호버 시 배경색 변경
   }
 
   &:active {
-    background-color: #003f7f; // 클릭 시 배경색 변경
+    background-color: #8a1134; // 클릭 시 배경색 변경
   }
 
   &:disabled {
@@ -369,7 +369,7 @@ const PopupContent = styled.div`
 `;
 
 const Nickname = styled.p`
-  font-size: 18px; // 폰트 크기 설정
+  font-size: 22px; // 폰트 크기 설정
   font-weight: bold; // 굵은 폰트 설정
   margin-top: 10px; // 프로필 이미지와의 간격 설정
   margin-bottom: 20px; // 아래 컨텐츠와의 간격 설정
