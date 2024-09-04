@@ -20,7 +20,6 @@ import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
 import { Button, ButtonContainer, Container,CenterButton } from '../Newsfeed/NewsfeedStyle';
 import LazyImage from '../ImgRender/LazyImage';
-// import LazyImage from '../ImgRender/LazyImage'; 
 
 const NewsfeedDetail = () => {
   const { id } = useParams();
