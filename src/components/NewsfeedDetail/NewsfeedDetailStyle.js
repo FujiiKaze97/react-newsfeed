@@ -17,6 +17,7 @@ export const ButtonContainer = styled.div`
   margin-bottom: 20px;
   width: 100%;
 
+
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
@@ -28,7 +29,7 @@ export const TextContainter = styled.div`
   justify-content: right;
   gap: 10px;
   margin-bottom: 20px;
-  width: 40%;
+  width: 45%;
   color: #a0a0a0;
 
   @media (max-width: 768px) {

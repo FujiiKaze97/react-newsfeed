@@ -19,6 +19,7 @@ import {
 import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
 import { Button, ButtonContainer, Container,CenterButton } from '../Newsfeed/NewsfeedStyle';
+import LazyImage from '../ImgRender/LazyImage';
 // import LazyImage from '../ImgRender/LazyImage'; 
 
 const NewsfeedDetail = () => {
@@ -94,6 +95,33 @@ const NewsfeedDetail = () => {
       console.log(e);
     }
   };
+  
+  const handleDeletePost = async (id) => {
+    // 삭제 확인 팝업창을 띄웁니다.
+    const isConfirmed = window.confirm('이 포스팅을 삭제하시겠습니까?');
+
+    // 사용자가 "취소"를 클릭한 경우, 삭제 작업을 중단합니다.
+    if (!isConfirmed) {
+      return; // 삭제 작업을 중단합니다.
+    }
+
+    // 댓글 삭제 작업을 진행합니다.
+    const { error } = await supabase.from('postings').delete().eq('posting_id', id);
+
+    if (error) {
+      console.error('댓글 삭제 중 에러 발생:', error);
+    } else {
+      // 댓글 삭제 후, 최신 댓글 리스트를 다시 불러옵니다.
+      const { data: postData } = await supabase
+        .from('postings')
+        .select('*, users(nick_nm)')
+        .eq('posting_id', id);
+
+      setComments(postData); // 상태를 업데이트하여 화면에 반영합니다.
+      navigate('/');
+    }
+  };
+
 
 
   const handleDeleteComment = async (commentId) => {
@@ -137,7 +165,7 @@ const NewsfeedDetail = () => {
     <DetailContainer>
       <CardContainer>
         <Card key={post?.posting_id}>
-          <CardImage
+          <LazyImage
             src={post?.image}
             alt={post?.title}
             onError={(e) =>
@@ -148,24 +176,21 @@ const NewsfeedDetail = () => {
            <CardContent>
             <div>
             <Title>{post?.title}</Title>
-            <Info>작성자 : {post?.users.nick_nm} 작성일 : {post?.date}</Info>
+            <Info>
+              <h2>작성자 : {post?.users.nick_nm}</h2> <h3>작성일 : {post?.date}</h3>
+              </Info>
             <br></br><br></br>
             </div>
             <h3>{post?.content}</h3>    
           </CardContent>
         </Card>
       </CardContainer>
+      {post?.id === session?.user.id && (
       <TextContainter>
-        {post?.id === session?.user.id && (
-          <h3 style={{ cursor: 'pointer' }} onClick={() => handleDeletePost(id)}>
-            삭제
-          </h3>
-        )}
-
-        <h3 style={{ cursor: 'pointer' }} onClick={() => updateClick(id)}>
-          수정
-        </h3>
+          <h3 style= {{cursor:"pointer"}} onClick={() => handleDeletePost(id)}>삭제</h3>
+          <h3 style= {{cursor:"pointer"}}  onClick={() => updateClick(id)}>수정</h3>
       </TextContainter>
+        )}
       <CommentContainer>
         <CommentHeader>Comments</CommentHeader>
         <CommentForm>

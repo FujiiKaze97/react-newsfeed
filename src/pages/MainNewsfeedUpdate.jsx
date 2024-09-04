@@ -49,6 +49,10 @@ const WriteButton = styled.button`
       }
     }};
   }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -122,6 +126,7 @@ export default function MainNewsfeedUpdate() {
   const [form, setForm] = useState({ title: '', content: '', date: '' });
   const [image, setImage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [id, setId] = useState('');
 
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -132,7 +137,7 @@ export default function MainNewsfeedUpdate() {
   };
 
   const handleUpdatePost = async () => {
-    if (!form.title || !form.content || !form.date) {
+    if (!form.title || !form.content || !form.date || !image) {
       alert('모든 필드를 채워주세요!');
       return;
     }
@@ -182,14 +187,9 @@ export default function MainNewsfeedUpdate() {
 
       if (error) throw error;
 
-      // if (session?.user.email !== postings.user_email) {
-      //   alert('게시물의 작성자가 아닙니다');
-      //   navigate('/');
-      //   return;
-      // }
+      const { image, title, content, date, id } = postings;
 
-      const { image, title, content, date } = postings;
-
+      setId(id);
       setForm({ title, content, date });
       setImage(image);
     } catch (err) {
@@ -239,7 +239,7 @@ export default function MainNewsfeedUpdate() {
           <Input id="date" name="date" type="date" value={form.date} onChange={handleChange} />
         </InputWrapper>
 
-        <WriteButton $variant="submit" onClick={handleUpdatePost}>
+        <WriteButton $variant="submit" onClick={handleUpdatePost} disabled={id !== session?.user.id}>
           수정하기
         </WriteButton>
       </WriteContainer>
