@@ -15,7 +15,7 @@ import {
 } from './NewsfeedStyle'; // 스타일 import
 import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
-import LazyImage from '../ImgRender/RenderImg'; // LazyImage import
+import LazyImage from '../ImgRender/LazyImage'; // LazyImage import
 
 const Newsfeed = () => {
   const [posts, setPosts] = useState([]);

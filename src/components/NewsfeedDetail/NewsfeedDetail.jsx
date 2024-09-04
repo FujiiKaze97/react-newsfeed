@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import supabase from '../../../supabase';
 import {
   Card,
-  CardImage,
   CardContent,
   Title,
   Info,
@@ -14,15 +13,17 @@ import {
   CommentItem,
   CommentHeader,
   TextContainter,
-  DetailContainer
+  DetailContainer,
+  CardImage
 } from './NewsfeedDetailStyle';
 import LogoutButton from '../LogoutButton';
 import { SessionContext } from '../../context/SessionContext';
-import { Button, ButtonContainer, CenterButton, Container } from '../Newsfeed/NewsfeedStyle';
+import { Button, ButtonContainer, Container,CenterButton } from '../Newsfeed/NewsfeedStyle';
+// import LazyImage from '../ImgRender/LazyImage'; 
 
 const NewsfeedDetail = () => {
   const { id } = useParams();
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const navigate = useNavigate();
@@ -35,11 +36,12 @@ const NewsfeedDetail = () => {
           .from('postings')
           .select('*, users(nick_nm)')
           .eq('posting_id', id)
-          .maybeSingle();
+          .single();
 
         if (postError) {
           console.error('Error fetching post:', postError);
         } else {
+          console.log(postData);
           setPost(postData);
         }
 
@@ -57,6 +59,7 @@ const NewsfeedDetail = () => {
     };
     fetchData();
   }, [session, id]);
+
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -87,15 +90,11 @@ const NewsfeedDetail = () => {
   const updateClick = (posting_id) => {
     try {
       navigate('/mainnewsfeedupdate/' + posting_id);
-      console.log(posting_id);
     } catch (e) {
       console.log(e);
     }
   };
 
-  if (!post) {
-    return <p>Loading...</p>;
-  }
 
   const handleDeleteComment = async (commentId) => {
     // 삭제 확인 팝업창을 띄웁니다.
@@ -122,57 +121,60 @@ const NewsfeedDetail = () => {
     }
   };
 
+
   return (
-<<<<<<< HEAD
+    <>
     <Container>
       <ButtonContainer>
-        <Button onClick={() => navigate('/')}>어서오시개!</Button>
-        <Button onClick={() => navigate('/mypage')}>마이 페이지</Button>
-        <LogoutButton />
+        <div></div> {/* 왼쪽에 빈 공간 */}
+        <CenterButton onClick={() => navigate('/')}></CenterButton>
+        <div>
+          <Button onClick={() => navigate('/mypage')}>MyPage</Button>
+          <LogoutButton />
+        </div>
       </ButtonContainer>
+    </Container>
+    <DetailContainer>
       <CardContainer>
-        <Card key={post.posting_id}>
+        <Card key={post?.posting_id}>
           <CardImage
-            src={post.image}
-            alt={post.title}
+            src={post?.image}
+            alt={post?.title}
             onError={(e) =>
               (e.target.src =
-                'https://sdkvrrggsuuhvxrvsobx.supabase.co/storage/v1/object/public/avatars/avatar_1725281697916.png')
+                'https://sdkvrrggsuuhvxrvsobx.supabase.co/storage/v1/object/public/avatars/avatar_1725329229844.png')
             }
           />
-          <CardContent>
+           <CardContent>
             <div>
-            <Title>{post.title}</Title>
-            <Info>작성자 : {post.users.nick_nm} 작성일 : {post.date}</Info>
+            <Title>{post?.title}</Title>
+            <Info>작성자 : {post?.users.nick_nm} 작성일 : {post?.date}</Info>
             <br></br><br></br>
             </div>
-      
-            <h3>{post.content}</h3>    
+            <h3>{post?.content}</h3>    
           </CardContent>
         </Card>
       </CardContainer>
       <TextContainter>
-      {post.id === session.user.id && (
-        <h3 style= {{cursor:"pointer"}} onClick={() => handleDeletePost(id)}>삭제</h3>
+        {post?.id === session?.user.id && (
+          <h3 style={{ cursor: 'pointer' }} onClick={() => handleDeletePost(id)}>
+            삭제
+          </h3>
         )}
 
-        <h3 style= {{cursor:"pointer"}}  onClick={() => updateClick(id)}>수정</h3>
+        <h3 style={{ cursor: 'pointer' }} onClick={() => updateClick(id)}>
+          수정
+        </h3>
       </TextContainter>
       <CommentContainer>
-      <CommentHeader>Comments</CommentHeader>
+        <CommentHeader>Comments</CommentHeader>
         <CommentForm>
           <textarea value={newComment} onChange={handleCommentChange} placeholder="댓글을 작성하세요." rows="4" />
-          <button style={{color : "#f1a121"}}onClick={handleCommentSubmit}>댓글 남기기</button>
+          <button style={{backgroundColor : "#343a40"}}onClick={handleCommentSubmit}>댓글 남기기</button>
         </CommentForm>
         <CommentList>
           {comments.map((comment) => (
             <CommentItem key={comment.comments_id}>
-
-            <div style={{justifyContent: 'space-between', display:"flex"}}>
-              <h3 style={{fontWeight:"bold"}}>작성자 : {comment.users.nick_nm}</h3>
-             <Info>작성일 : {new Date(comment.writed_at).toLocaleString()}</Info>
-            </div>
-     
             <div style={{justifyContent: 'space-between', display:"flex"}}>
             <h3>{comment.contents}</h3>
             {comment.id === session.user.id && (
@@ -186,80 +188,13 @@ const NewsfeedDetail = () => {
               <h3 style={{fontWeight:"bold"}}>작성자 : {comment.users.nick_nm}</h3>
              <Info>작성일 : {new Date(comment.writed_at).toLocaleString()}</Info>
             </div>
-       
-            
+      
             </CommentItem>
           ))}
         </CommentList>
       </CommentContainer>
-    </Container>
-=======
-    <>
-      <Container>
-        <ButtonContainer>
-          <div></div> {/* 왼쪽에 빈 공간 */}
-          <CenterButton onClick={() => navigate('/')}></CenterButton>
-          <div>
-            <Button onClick={() => navigate('/mypage')}>마이 페이지</Button>
-            <LogoutButton />
-          </div>
-        </ButtonContainer>
-      </Container>
-      <DetailContainer>
-        <CardContainer>
-          <Card key={post.posting_id}>
-            <CardImage
-              src={post.image}
-              alt={post.title}
-              onError={(e) =>
-                (e.target.src =
-                  'https://sdkvrrggsuuhvxrvsobx.supabase.co/storage/v1/object/public/avatars/avatar_1725281697916.png')
-              }
-            />
-            <CardContent>
-              <Title>{post.title}</Title>
-              <Info>{post.content}</Info>
-              <Info>작성일 : {post.date}</Info>
-              <Info>작성자 : {post.users.nick_nm}</Info>
-            </CardContent>
-          </Card>
-        </CardContainer>
-        <TextContainter>
-          {post.id === session.user.id && (
-            <h3 style={{ cursor: 'pointer' }} onClick={() => handleDeletePost(id)}>
-              삭제
-            </h3>
-          )}
-
-          <h3 style={{ cursor: 'pointer' }} onClick={() => updateClick(id)}>
-            수정
-          </h3>
-        </TextContainter>
-        <CommentContainer>
-          <CommentHeader>Comments</CommentHeader>
-          <CommentForm>
-            <textarea value={newComment} onChange={handleCommentChange} placeholder="댓글을 작성하세요." rows="4" />
-            <button style={{ backgroundColor: '#343a40' }} onClick={handleCommentSubmit}>
-              댓글 남기기
-            </button>
-          </CommentForm>
-          <CommentList>
-            {comments.map((comment) => (
-              <CommentItem key={comment.comments_id}>
-                <p>{comment.contents}</p>
-                <p>작성자: {comment.users.nick_nm}</p>
-                <p>작성일: {new Date(comment.writed_at).toLocaleString()}</p>
-
-                {comment.id === session.user.id && (
-                  <button onClick={() => handleDeleteComment(comment.comments_id)}>삭제</button>
-                )}
-              </CommentItem>
-            ))}
-          </CommentList>
-        </CommentContainer>
-      </DetailContainer>
-    </>
->>>>>>> d59911754e67db105a07b1cd03cfe5f07b6362b6
+    </DetailContainer>
+  </>
   );
 };
 

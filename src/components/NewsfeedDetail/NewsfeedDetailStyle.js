@@ -4,8 +4,10 @@ export const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 100px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -26,7 +28,7 @@ export const TextContainter = styled.div`
   justify-content: right;
   gap: 10px;
   margin-bottom: 20px;
-  width: 50%;
+  width: 40%;
   color: #a0a0a0;
 
   @media (max-width: 768px) {
