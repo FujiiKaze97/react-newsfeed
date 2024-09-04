@@ -155,14 +155,15 @@ const NewsfeedDetail = () => {
         </CardContainer>
         <TextContainter>
           {post.id === session.user.id && (
-            <h3 style={{ cursor: 'pointer' }} onClick={() => handleDeletePost(id)}>
-              삭제
-            </h3>
+            <>
+              <h3 style={{ cursor: 'pointer' }} onClick={() => handleDeletePost(id)}>
+                삭제
+              </h3>
+              <h3 style={{ cursor: 'pointer' }} onClick={() => updateClick(id)}>
+                수정
+              </h3>
+            </>
           )}
-
-          <h3 style={{ cursor: 'pointer' }} onClick={() => updateClick(id)}>
-            수정
-          </h3>
         </TextContainter>
         <CommentContainer>
           <CommentHeader>Comments</CommentHeader>
