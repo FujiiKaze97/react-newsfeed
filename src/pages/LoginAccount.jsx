@@ -69,16 +69,17 @@ const LoginAccount = () => {
               }}
             />
           </InputContainer>
+          <AccountButtonContainer>
+            <LoginButton
+              onClick={() => {
+                navigate('/');
+              }}
+            >
+              로그인
+            </LoginButton>
 
-          <LoginButton
-            onClick={() => {
-              navigate('/');
-            }}
-          >
-            로그인
-          </LoginButton>
-
-          <button onClick={handleSignUp}>회원가입</button>
+            <AccountButton onClick={handleSignUp}>회원가입</AccountButton>
+          </AccountButtonContainer>
         </RightSection>
       </Wrapper>
     </div>
@@ -87,9 +88,28 @@ const LoginAccount = () => {
 
 export default LoginAccount;
 
-const InputSection = styled.div`
+const AccountButton = styled.button`
+  padding: 0.75rem;
+  background-color: #4958ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  height: 40px;
+  align-items: center;
+  margin-top: 1.5rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const AccountButtonContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  margin: 0 auto;
+  flex-direction: row;
+  width: 300px;
+  gap: 10px;
 `;
