@@ -42,7 +42,6 @@ const NewsfeedDetail = () => {
         if (postError) {
           console.error('Error fetching post:', postError);
         } else {
-          console.log(postData);
           setPost(postData);
         }
 
