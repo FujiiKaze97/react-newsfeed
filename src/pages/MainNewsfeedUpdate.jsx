@@ -1,5 +1,5 @@
-import { useState, useRef, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useContext, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import supabase from '../../supabase';
 import { SessionContext } from '../context/SessionContext';
@@ -48,6 +48,10 @@ const WriteButton = styled.button`
           return '#0056b3';
       }
     }};
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
   }
 `;
 
@@ -116,11 +120,14 @@ const TextArea = styled.textarea`
   }
 `;
 
-export default function MainNewsfeedWrite() {
+export default function MainNewsfeedUpdate() {
+  const { posting_id } = useParams();
+  const { session } = useContext(SessionContext);
   const [form, setForm] = useState({ title: '', content: '', date: '' });
   const [image, setImage] = useState('');
   const [loading, setLoading] = useState(false);
-  const { session } = useContext(SessionContext);
+  const [id, setId] = useState('');
+
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -129,20 +136,25 @@ export default function MainNewsfeedWrite() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAddPost = async () => {
+  const handleUpdatePost = async () => {
+    if (!form.title || !form.content || !form.date || !image) {
+      alert('모든 필드를 채워주세요!');
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('postings')
-        .insert({ ...form, image, id: session?.user.id })
-        .select();
+        .update({ ...form, image, id: session?.user.id })
+        .eq('posting_id', posting_id);
 
       if (error) throw error;
 
-      alert('작성 완료');
-      navigate('/mainnewsfeed');
+      alert('수정 완료');
+      navigate(-1);
     } catch (err) {
       console.error(err);
-      alert('작성 실패');
+      alert('수정 실패');
     }
   };
 
@@ -160,10 +172,35 @@ export default function MainNewsfeedWrite() {
       setImage(newImage);
     } catch (err) {
       console.error(err.message);
+      alert('파일 업로드에 실패했습니다');
     } finally {
       setLoading(false);
     }
   };
+
+  const fetchPost = async () => {
+    try {
+      const {
+        data: [postings],
+        error
+      } = await supabase.from('postings').select().eq('posting_id', posting_id);
+
+      if (error) throw error;
+
+      const { image, title, content, date, id } = postings;
+
+      setId(id);
+      setForm({ title, content, date });
+      setImage(image);
+    } catch (err) {
+      console.error(err);
+      alert('포스팅을 불러오는 데 실패했습니다');
+    }
+  };
+
+  useEffect(() => {
+    fetchPost();
+  }, [posting_id]);
 
   return (
     <>
@@ -201,8 +238,9 @@ export default function MainNewsfeedWrite() {
           <InputLabel htmlFor="date">날짜:</InputLabel>
           <Input id="date" name="date" type="date" value={form.date} onChange={handleChange} />
         </InputWrapper>
-        <WriteButton $variant="submit" onClick={handleAddPost}>
-          업로드
+
+        <WriteButton $variant="submit" onClick={handleUpdatePost} disabled={id !== session?.user.id}>
+          수정하기
         </WriteButton>
       </WriteContainer>
     </>
